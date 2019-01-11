@@ -9,12 +9,18 @@ Register a class that handles an event using<br>
 Use <code>@EventSubscriber</code> on a method that will be called once an event is run<br>
 Example:<br>
 <br>
+
+code {
+  display: block;
+  white-space: pre-wrap   
+}
+
 <code>
-@EventSubscriber<br>
-public void onEntitySpawned(EntitySpawnedEvent event) {<br>
-	System.out.println(event.getEntity().getName() + " Has been spawned in the world!");<br>
-}<br>
-</code>
+@EventSubscriber
+public void onEntitySpawned(EntitySpawnedEvent event) {
+	System.out.println(event.getEntity().getName() + " Has been spawned in the world!");
+}
+</code><br>
 <br>
 EventsList:<br>
 <br>

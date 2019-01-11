@@ -2,6 +2,7 @@ package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.PlayerEvents;
+import nerdhub.textilelib.events.TickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,5 +32,11 @@ public class MixinMinecraftClient {
                 }
             }
         }
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void tick() {
+        TickEvents.ClientTickEvent clientTickEvent = new TickEvents.ClientTickEvent();
+        EventRegistry.runEvent(clientTickEvent);
     }
 }

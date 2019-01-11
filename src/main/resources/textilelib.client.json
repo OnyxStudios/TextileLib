@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "nerdhub.textilelib.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinGameRenderer",
+    "MixinMinecraftClient"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

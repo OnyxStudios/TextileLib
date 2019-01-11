@@ -1,0 +1,17 @@
+{
+  "id": "textilelib",
+  "name": "TextileLib",
+  "description": "Adding more events into the game",
+  "version": "1.0.0",
+  "side": "universal",
+  "initializers": [
+    "nerdhub.textilelib.TextileLib"
+  ],
+  "requires": {
+    "fabric": "*"
+  },
+  "mixins": {
+    "client": "textilelib.client.json",
+    "common": "textilelib.common.json"
+  }
+}

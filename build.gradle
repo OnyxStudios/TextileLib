@@ -1,0 +1,26 @@
+plugins {
+	id 'fabric-loom' version '0.2.0-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+archivesBaseName = "textilelib"
+version = "1.0.0"
+
+minecraft {
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:19w02a"
+	mappings "net.fabricmc:yarn:19w02a.12"
+	modCompile "net.fabricmc:fabric-loader:0.3.2.92"
+
+	modCompile "net.fabricmc:fabric:0.1.4.71"
+	compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}

@@ -10,10 +10,12 @@ Use <code>@EventSubscriber</code> on a method that will be called once an event 
 Example:<br>
 <br>
 
+<style>
 code {
   display: block;
   white-space: pre-wrap   
 }
+</style>
 
 <code>
 @EventSubscriber

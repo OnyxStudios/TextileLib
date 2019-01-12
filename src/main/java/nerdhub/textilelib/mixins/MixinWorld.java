@@ -8,10 +8,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class MixinWorld {
 
     @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)
     public void spawnEntity(Entity entity_1, CallbackInfoReturnable cir) {
-        EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1.world, entity_1);
+        EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
         boolean flag = entity_1.field_5983;
         int int_1 = MathHelper.floor(entity_1.x / 16.0D);
         int int_2 = MathHelper.floor(entity_1.z / 16.0D);
@@ -43,16 +43,18 @@ public abstract class MixinWorld {
         }
     }
 
-    @Overwrite
-    public void loadEntities(Stream<Entity> stream_1) {
+    @Inject(method = "loadEntities", at = @At("HEAD"), cancellable = true)
+    public void loadEntities(Stream<Entity> stream_1, CallbackInfo ci) {
         stream_1.forEach((entity_1) -> {
-            EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1.world, entity_1);
+            EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
             EventRegistry.fireEvent(entityAddedEvent);
             if (!entityAddedEvent.isCanceled()) {
                 this.entities.add(entity_1);
                 this.onEntityAdded(entity_1);
             }
         });
+
+        ci.cancel();
     }
 
     @Shadow

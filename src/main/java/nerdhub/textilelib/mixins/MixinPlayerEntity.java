@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,7 +18,7 @@ public abstract class MixinPlayerEntity {
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable cir) {
-        PlayerEvents.PlayerInteractEvent playerInteractEntity = new PlayerEvents.PlayerInteractEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
+        PlayerEvents.InteractEntityEvent playerInteractEntity = new PlayerEvents.InteractEntityEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
         EventRegistry.fireEvent(playerInteractEntity);
 
         if (playerInteractEntity.isCanceled()) {
@@ -33,7 +32,4 @@ public abstract class MixinPlayerEntity {
         TickEvents.PlayerTickEvent playerTickEvent = new TickEvents.PlayerTickEvent((PlayerEntity) (Object) this);
         EventRegistry.fireEvent(playerTickEvent);
     }
-
-    @Shadow
-    public abstract boolean isSpectator();
 }

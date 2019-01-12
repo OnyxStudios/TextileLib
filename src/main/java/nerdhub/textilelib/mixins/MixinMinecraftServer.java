@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.TickEvents;
+import nerdhub.textilelib.events.TickEvent;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,7 +15,7 @@ public class MixinMinecraftServer {
 
     @Inject(method = "method_3748", at = @At("HEAD"))
     protected void method_3748(BooleanSupplier booleanSupplier_1, CallbackInfo ci) {
-        TickEvents.ServerTickEvent serverTickEvent = new TickEvents.ServerTickEvent((MinecraftServer) (Object) this);
+        TickEvent.ServerTickEvent serverTickEvent = new TickEvent.ServerTickEvent((MinecraftServer) (Object) this);
         EventRegistry.INSTANCE.fireEvent(serverTickEvent);
     }
 }

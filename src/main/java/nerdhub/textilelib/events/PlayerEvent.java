@@ -7,11 +7,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
-public class PlayerEvents extends CancelableEvent {
+public abstract class PlayerEvent extends CancelableEvent {
 
     private PlayerEntity player;
 
-    public PlayerEvents(PlayerEntity player) {
+    public PlayerEvent(PlayerEntity player) {
         this.player = player;
     }
 
@@ -19,7 +19,7 @@ public class PlayerEvents extends CancelableEvent {
         return player;
     }
 
-    public static class InteractEvent extends PlayerEvents {
+    public static class InteractEvent extends PlayerEvent {
 
         private Hand hand;
 
@@ -70,7 +70,7 @@ public class PlayerEvents extends CancelableEvent {
     /**
      * Is called on client side only, send a packed with the data to server to handle stuff
      */
-    public static class PlayerSwingEvent extends PlayerEvents {
+    public static class PlayerSwingEvent extends PlayerEvent {
 
         public PlayerSwingEvent(PlayerEntity player) {
             super(player);

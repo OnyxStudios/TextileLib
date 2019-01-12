@@ -1,8 +1,8 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.PlayerEvents;
-import nerdhub.textilelib.events.TickEvents;
+import nerdhub.textilelib.events.PlayerEvent;
+import nerdhub.textilelib.events.TickEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ public class MixinMinecraftClient {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void doAttack(CallbackInfo ci) {
         MinecraftClient client = (MinecraftClient) (Object) this;
-        PlayerEvents.PlayerSwingEvent playerLeftClick = new PlayerEvents.PlayerSwingEvent(client.player);
+        PlayerEvent.PlayerSwingEvent playerLeftClick = new PlayerEvent.PlayerSwingEvent(client.player);
 
         if (attackCooldown <= 0) {
             if (client.hitResult != null) {
@@ -36,7 +36,7 @@ public class MixinMinecraftClient {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
-        TickEvents.ClientTickEvent clientTickEvent = new TickEvents.ClientTickEvent();
+        TickEvent.ClientTickEvent clientTickEvent = new TickEvent.ClientTickEvent();
         EventRegistry.INSTANCE.fireEvent(clientTickEvent);
     }
 }

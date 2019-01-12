@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.PlayerEvents;
+import nerdhub.textilelib.events.PlayerEvent;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.world.ClientWorld;
@@ -20,7 +20,7 @@ public class MixinClientPlayerInteractionManager {
 
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
     public void interactBlock(ClientPlayerEntity clientPlayerEntity_1, ClientWorld clientWorld_1, BlockPos blockPos_1, Direction direction_1, Vec3d vec3d_1, Hand hand_1, CallbackInfoReturnable cir) {
-        PlayerEvents.InteractBlockEvent interactBlockEvent = new PlayerEvents.InteractBlockEvent(clientPlayerEntity_1, clientPlayerEntity_1.getActiveHand(), clientWorld_1.getBlockState(blockPos_1), blockPos_1);
+        PlayerEvent.InteractBlockEvent interactBlockEvent = new PlayerEvent.InteractBlockEvent(clientPlayerEntity_1, clientPlayerEntity_1.getActiveHand(), clientWorld_1.getBlockState(blockPos_1), blockPos_1);
         EventRegistry.INSTANCE.fireEvent(interactBlockEvent);
 
         if(interactBlockEvent.isCanceled()) {

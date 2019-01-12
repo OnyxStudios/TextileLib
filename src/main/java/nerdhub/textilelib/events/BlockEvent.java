@@ -10,13 +10,13 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockEvents extends CancelableEvent {
+public abstract class BlockEvent extends CancelableEvent {
 
     private World world;
     private BlockPos pos;
     private BlockState state;
 
-    public BlockEvents(World world, BlockPos pos, BlockState state) {
+    public BlockEvent(World world, BlockPos pos, BlockState state) {
         this.world = world;
         this.pos = pos;
         this.state = state;
@@ -34,7 +34,7 @@ public class BlockEvents extends CancelableEvent {
         return state;
     }
 
-    public static class BlockBreakEvent extends BlockEvents {
+    public static class BlockBreakEvent extends BlockEvent {
 
         private PlayerEntity player;
 
@@ -48,7 +48,7 @@ public class BlockEvents extends CancelableEvent {
         }
     }
 
-    public static class BlockDropsEvent extends BlockEvents {
+    public static class BlockDropsEvent extends BlockEvent {
 
         private List<ItemStack> drops;
         private PlayerEntity blockHarvester;
@@ -74,7 +74,7 @@ public class BlockEvents extends CancelableEvent {
         }
     }
 
-    public static class BlockPlaceEvent extends BlockEvents {
+    public static class BlockPlaceEvent extends BlockEvent {
 
         private PlayerEntity placer;
         private BlockState placedOn;

@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.BlockEvents;
+import nerdhub.textilelib.events.BlockEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -28,7 +28,7 @@ public class MixinItemStack {
             ItemStack stack = itemUsageContext_1.getItemStack();
             PlayerEntity playerEntity = itemUsageContext_1.getPlayer();
 
-            BlockEvents.BlockPlaceEvent blockPlaceEvent = new BlockEvents.BlockPlaceEvent(world, pos, Block.getBlockFromItem(stack.getItem()).getDefaultState(), playerEntity, world.getBlockState(pos.offset(facing)));
+            BlockEvent.BlockPlaceEvent blockPlaceEvent = new BlockEvent.BlockPlaceEvent(world, pos, Block.getBlockFromItem(stack.getItem()).getDefaultState(), playerEntity, world.getBlockState(pos.offset(facing)));
             EventRegistry.INSTANCE.fireEvent(blockPlaceEvent);
 
             if (blockPlaceEvent.isCanceled()) {

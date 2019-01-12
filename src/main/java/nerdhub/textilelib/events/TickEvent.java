@@ -5,12 +5,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 
-public class TickEvents implements Event {
+public abstract class TickEvent implements Event {
 
-    public TickEvents() {
+    public TickEvent() {
     }
 
-    public static class ServerTickEvent extends TickEvents {
+    public static class ServerTickEvent extends TickEvent {
 
         private MinecraftServer server;
 
@@ -23,13 +23,13 @@ public class TickEvents implements Event {
         }
     }
 
-    public static class ClientTickEvent extends TickEvents {
+    public static class ClientTickEvent extends TickEvent {
 
         public ClientTickEvent() {
         }
     }
 
-    public static class EntityTickEvent extends TickEvents {
+    public static class EntityTickEvent extends TickEvent {
 
         private Entity entity;
 
@@ -42,7 +42,7 @@ public class TickEvents implements Event {
         }
     }
 
-    public static class PlayerTickEvent extends TickEvents {
+    public static class PlayerTickEvent extends TickEvent {
 
         private PlayerEntity player;
 

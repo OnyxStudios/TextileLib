@@ -20,7 +20,7 @@ public abstract class MixinPlayerEntity {
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable cir) {
         PlayerEvents.PlayerInteractEvent playerInteractEntity = new PlayerEvents.PlayerInteractEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
-        EventRegistry.fireEvent(playerInteractEntity);
+        EventRegistry.INSTANCE.fireEvent(playerInteractEntity);
 
         if (playerInteractEntity.isCanceled()) {
             cir.setReturnValue(ActionResult.FAILURE);
@@ -31,7 +31,7 @@ public abstract class MixinPlayerEntity {
     @Inject(method = "update", at = @At("HEAD"))
     public void update(CallbackInfo ci) {
         TickEvents.PlayerTickEvent playerTickEvent = new TickEvents.PlayerTickEvent((PlayerEntity) (Object) this);
-        EventRegistry.fireEvent(playerTickEvent);
+        EventRegistry.INSTANCE.fireEvent(playerTickEvent);
     }
 
     @Shadow

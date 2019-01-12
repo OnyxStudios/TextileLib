@@ -22,6 +22,6 @@ public class MixinGameRenderer {
     private void method_3178(float float_1, long long_1, CallbackInfo ci) {
         this.client.getProfiler().swap("textilelib_render_world");
         RenderWorldEvent renderWorldEvent = new RenderWorldEvent(this.client.renderer, float_1);
-        EventRegistry.fireEvent(renderWorldEvent);
+        EventRegistry.INSTANCE.fireEvent(renderWorldEvent);
     }
 }

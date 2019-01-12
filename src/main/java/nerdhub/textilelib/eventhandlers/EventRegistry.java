@@ -29,7 +29,7 @@ public class EventRegistry {
         }
     }
 
-    public static void runEvent(Event event) {
+    public static void fireEvent(Event event) {
         for (Method method : classMethodMultimap.get(event.getClass())) {
             invokeMethod(eventSubscriberMethods.get(method), method, event);
         }

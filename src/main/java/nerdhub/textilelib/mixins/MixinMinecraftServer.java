@@ -15,7 +15,7 @@ public class MixinMinecraftServer {
 
     @Inject(method = "method_3748", at = @At("HEAD"))
     protected void method_3748(BooleanSupplier booleanSupplier_1, CallbackInfo ci) {
-        TickEvents.ServerTickEvent serverTickEvent = new TickEvents.ServerTickEvent();
-        EventRegistry.runEvent(serverTickEvent);
+        TickEvents.ServerTickEvent serverTickEvent = new TickEvents.ServerTickEvent((MinecraftServer) (Object) this);
+        EventRegistry.fireEvent(serverTickEvent);
     }
 }

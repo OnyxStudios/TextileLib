@@ -31,6 +31,7 @@ public abstract class MixinServerWorld extends MixinWorld {
         ci.cancel();
     }
 
+    //TODO map to canLoadEntity
     @Shadow
     abstract boolean method_14175(Entity entity_1);
 

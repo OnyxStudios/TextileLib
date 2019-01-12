@@ -13,6 +13,7 @@ import java.util.function.BooleanSupplier;
 @Mixin(MinecraftServer.class)
 public class MixinMinecraftServer {
 
+    //TODO map to ??? figure out name for it as update doesnt fit and tick() is already mapped to another method
     @Inject(method = "method_3748", at = @At("HEAD"))
     protected void method_3748(BooleanSupplier booleanSupplier_1, CallbackInfo ci) {
         TickEvent.ServerTickEvent serverTickEvent = new TickEvent.ServerTickEvent((MinecraftServer) (Object) this);

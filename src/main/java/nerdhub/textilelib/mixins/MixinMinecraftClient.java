@@ -20,7 +20,7 @@ public class MixinMinecraftClient {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void doAttack(CallbackInfo ci) {
         MinecraftClient client = (MinecraftClient) (Object) this;
-        PlayerEvents.PlayerLeftClick playerLeftClick = new PlayerEvents.PlayerLeftClick(client.player, client.player.getActiveHand());
+        PlayerEvents.PlayerLeftClickEvent playerLeftClick = new PlayerEvents.PlayerLeftClickEvent(client.player, client.player.getActiveHand());
 
         if (attackCooldown <= 0) {
             if (client.hitResult != null) {

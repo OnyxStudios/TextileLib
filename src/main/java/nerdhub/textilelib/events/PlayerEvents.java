@@ -37,11 +37,11 @@ public class PlayerEvents extends CancelableEvent {
         return direction;
     }
 
-    public static class PlayerInteractEntity extends PlayerEvents {
+    public static class PlayerInteractEvent extends PlayerEvents {
 
         private Entity target;
 
-        public PlayerInteractEntity(PlayerEntity player, Hand hand, Entity target) {
+        public PlayerInteractEvent(PlayerEntity player, Hand hand, Entity target) {
             super(player, hand);
             this.target = target;
         }
@@ -59,9 +59,9 @@ public class PlayerEvents extends CancelableEvent {
     /**
      * Is called on client side only, send a packed with the data to server to handle stuff
      */
-    public static class PlayerLeftClick extends PlayerEvents {
+    public static class PlayerLeftClickEvent extends PlayerEvents {
 
-        public PlayerLeftClick(PlayerEntity player, Hand hand) {
+        public PlayerLeftClickEvent(PlayerEntity player, Hand hand) {
             super(player, hand);
         }
     }

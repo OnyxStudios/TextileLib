@@ -17,7 +17,7 @@ public abstract class MixinPlayerEntity {
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable cir) {
-        PlayerEvents.PlayerInteractEntity playerInteractEntity = new PlayerEvents.PlayerInteractEntity((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
+        PlayerEvents.PlayerInteractEvent playerInteractEntity = new PlayerEvents.PlayerInteractEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
         EventRegistry.runEvent(playerInteractEntity);
 
         if (playerInteractEntity.isCanceled()) {

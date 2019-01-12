@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Mixin(ServerWorld.class)
@@ -17,6 +18,18 @@ public abstract class MixinServerWorld extends MixinWorld {
 
     @Inject(method = "loadEntities", at = @At("HEAD"), cancellable = true)
     public void loadEntities(Stream<Entity> stream_1, CallbackInfo ci) {
+        for (Entity entity_1 : stream_1.collect(Collectors.toList())) {
+            if (this.method_14175(entity_1)) {
+                EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
+                EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
+                if (!entityAddedEvent.isCanceled()) {
+                    this.entities.add(entity_1);
+                    this.onEntityAdded(entity_1);
+                }
+            }
+        }
+
+        /**
         stream_1.forEach((entity_1) -> {
             if (this.method_14175(entity_1)) {
                 EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
@@ -27,6 +40,7 @@ public abstract class MixinServerWorld extends MixinWorld {
                 }
             }
         });
+        */
 
         ci.cancel();
     }

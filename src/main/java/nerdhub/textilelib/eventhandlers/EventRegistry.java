@@ -35,9 +35,10 @@ public class EventRegistry {
                 }
 
                 for (Class paramClass : method.getParameterTypes()) {
-                    if(!implementsEvent(paramClass)) {
-                        throw new UnsupportedOperationException("Event handler method's arguments must be a subtype of the Event interface. Method Name: " + method.getName());
-                    }
+                    // TODO Figure out why this is broken
+//                    if(!implementsEvent(paramClass)) {
+//                        throw new UnsupportedOperationException("Event handler method's arguments must be a subtype of the Event interface. Method Name: " + method.getName());
+//                    }
                     eventSubscriberMethods.put(method, clazz);
                     classMethodMultimap.put(paramClass, method);
                 }

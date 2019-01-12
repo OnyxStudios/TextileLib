@@ -35,7 +35,7 @@ public class MixinMinecraftClient {
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    public void tick() {
+    public void tick(CallbackInfo ci) {
         TickEvents.ClientTickEvent clientTickEvent = new TickEvents.ClientTickEvent();
         EventRegistry.runEvent(clientTickEvent);
     }

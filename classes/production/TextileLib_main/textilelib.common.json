@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "nerdhub.textilelib.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinBlock",
+    "MixinServerPlayerInteractionManager",
+    "MixinItemStack",
+    "MixinServerWorld",
+    "MixinWorld",
+    "MixinPlayerEntity",
+    "MixinMinecraftServer",
+    "MixinEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

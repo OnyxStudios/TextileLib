@@ -25,7 +25,7 @@ public class MixinMinecraftClient {
         if (attackCooldown <= 0) {
             if (client.hitResult != null) {
                 if (client.hitResult.type == HitResult.Type.NONE) {
-                    EventRegistry.fireEvent(playerLeftClick);
+                    EventRegistry.INSTANCE.fireEvent(playerLeftClick);
                     if (playerLeftClick.isCanceled()) {
                         ci.cancel();
                     }
@@ -37,6 +37,6 @@ public class MixinMinecraftClient {
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
         TickEvents.ClientTickEvent clientTickEvent = new TickEvents.ClientTickEvent();
-        EventRegistry.fireEvent(clientTickEvent);
+        EventRegistry.INSTANCE.fireEvent(clientTickEvent);
     }
 }

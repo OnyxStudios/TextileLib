@@ -16,7 +16,7 @@ public class MixinEntity {
     public void update(CallbackInfo ci) {
         if(!((Entity) (Object) this instanceof PlayerEntity)) {
             TickEvents.EntityTickEvent entityTickEvent = new TickEvents.EntityTickEvent((Entity) (Object) this);
-            EventRegistry.fireEvent(entityTickEvent);
+            EventRegistry.INSTANCE.fireEvent(entityTickEvent);
         }
     }
 }

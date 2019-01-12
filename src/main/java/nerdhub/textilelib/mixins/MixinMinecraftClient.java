@@ -20,12 +20,12 @@ public class MixinMinecraftClient {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void doAttack(CallbackInfo ci) {
         MinecraftClient client = (MinecraftClient) (Object) this;
-        PlayerEvents.PlayerLeftClickEvent playerLeftClick = new PlayerEvents.PlayerLeftClickEvent(client.player, client.player.getActiveHand());
+        PlayerEvents.PlayerSwingEvent playerLeftClick = new PlayerEvents.PlayerSwingEvent(client.player);
 
         if (attackCooldown <= 0) {
             if (client.hitResult != null) {
                 if (client.hitResult.type == HitResult.Type.NONE) {
-                    EventRegistry.runEvent(playerLeftClick);
+                    EventRegistry.fireEvent(playerLeftClick);
                     if (playerLeftClick.isCanceled()) {
                         ci.cancel();
                     }
@@ -37,6 +37,6 @@ public class MixinMinecraftClient {
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
         TickEvents.ClientTickEvent clientTickEvent = new TickEvents.ClientTickEvent();
-        EventRegistry.runEvent(clientTickEvent);
+        EventRegistry.fireEvent(clientTickEvent);
     }
 }

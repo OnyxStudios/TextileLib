@@ -49,20 +49,15 @@ public class PlayerEvents extends CancelableEvent {
         public Entity getTarget() {
             return target;
         }
-
-        @Override
-        public boolean isCanceled() {
-            return true;
-        }
     }
 
     /**
      * Is called on client side only, send a packed with the data to server to handle stuff
      */
-    public static class PlayerLeftClickEvent extends PlayerEvents {
+    public static class PlayerSwingEvent extends PlayerEvents {
 
-        public PlayerLeftClickEvent(PlayerEntity player, Hand hand) {
-            super(player, hand);
+        public PlayerSwingEvent(PlayerEntity player) {
+            super(player, Hand.MAIN);
         }
     }
 }

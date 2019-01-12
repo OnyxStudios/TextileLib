@@ -1,12 +1,12 @@
 plugins {
-
     id 'fabric-loom' version '0.2.0-SNAPSHOT'
     id 'maven-publish'
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = "textilelib"
+group = "com.github.NerdHubMC"
+archivesBaseName = "TextileLib"
 version = "${mod_version}"
 
 minecraft {
@@ -59,9 +59,9 @@ jar {
     manifest.mainAttributes(
             "Implementation-Title": project.name,
             "Implementation-Version": project.version,
-            "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}",
+            "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}".toLowerCase(Locale.ROOT),
             "Built-On-Minecraft": "${mc_version}",
-            "Built-On-Java": "${System.getProperty("java.vm.version")} + (${System.getProperty("java.vm.vendor")})"
+            "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
     )
 }
 

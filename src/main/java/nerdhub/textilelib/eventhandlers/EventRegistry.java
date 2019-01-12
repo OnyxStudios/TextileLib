@@ -19,8 +19,8 @@ public class EventRegistry {
 
     private EventRegistry() {
         eventSubscriberMethods = new HashMap<>();
-        classMethodMultimap = MultimapBuilder.hashKeys().arrayListValues().build();
-        classLambdaMultimap = MultimapBuilder.hashKeys().arrayListValues().build();
+        classMethodMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
+        classLambdaMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
     }
 
     public void registerEventHandler(Object clazz) {

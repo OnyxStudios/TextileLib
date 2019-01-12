@@ -2,6 +2,21 @@
 
 Simply Simple Events
 
+Gradle Dependency:
+
+```
+repositories {
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
+    }
+}
+
+dependencies {
+    modCompile "com.github.NerdHubMC:TextileLib:master-SNAPSHOT"
+}
+```
+
 Usage:
 Register a class that handles an event using
 `EventRegister#registerEventHandler(ClassObject);`

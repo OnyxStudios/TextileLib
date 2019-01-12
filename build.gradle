@@ -1,6 +1,5 @@
 plugins {
 	id 'fabric-loom' version '0.2.0-SNAPSHOT'
-	id 'maven-publish'
 }
 
 sourceCompatibility = 1.8
@@ -24,8 +23,4 @@ dependencies {
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
-}
-
-artifacts {
-	archives sourcesJar
 }

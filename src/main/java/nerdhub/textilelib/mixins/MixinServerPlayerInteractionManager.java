@@ -41,7 +41,7 @@ public class MixinServerPlayerInteractionManager {
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
     public void interactBlock(PlayerEntity playerEntity_1, World world_1, ItemStack itemStack_1, Hand hand_1, BlockPos blockPos_1, Direction direction_1, float float_1, float float_2, float float_3, CallbackInfoReturnable cir) {
         PlayerEvents.InteractBlockEvent interactBlockEvent = new PlayerEvents.InteractBlockEvent(playerEntity_1, playerEntity_1.getActiveHand(), world_1.getBlockState(blockPos_1), blockPos_1);
-        EventRegistry.fireEvent(interactBlockEvent);
+        EventRegistry.INSTANCE.fireEvent(interactBlockEvent);
 
         if(interactBlockEvent.isCanceled()) {
             cir.setReturnValue(ActionResult.FAILURE);

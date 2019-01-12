@@ -29,7 +29,7 @@ public class MixinItemStack {
             PlayerEntity playerEntity = itemUsageContext_1.getPlayer();
 
             BlockEvents.BlockPlaceEvent blockPlaceEvent = new BlockEvents.BlockPlaceEvent(world, pos, Block.getBlockFromItem(stack.getItem()).getDefaultState(), playerEntity, world.getBlockState(pos.offset(facing)));
-            EventRegistry.fireEvent(blockPlaceEvent);
+            EventRegistry.INSTANCE.fireEvent(blockPlaceEvent);
 
             if (blockPlaceEvent.isCanceled()) {
                 cir.setReturnValue(ActionResult.PASS);

@@ -30,7 +30,7 @@ public class MixinServerPlayerInteractionManager {
     @Inject(method = "destroyBlock", at = @At("HEAD"), cancellable = true)
     private void destroyBlock(BlockPos blockPos_1, CallbackInfoReturnable cir) {
         BlockEvents.BlockBreakEvent blockBreakEvent = new BlockEvents.BlockBreakEvent(world, blockPos_1, world.getBlockState(blockPos_1), player);
-        EventRegistry.fireEvent(blockBreakEvent);
+        EventRegistry.INSTANCE.fireEvent(blockBreakEvent);
 
         if (blockBreakEvent.isCanceled()) {
             cir.setReturnValue(false);

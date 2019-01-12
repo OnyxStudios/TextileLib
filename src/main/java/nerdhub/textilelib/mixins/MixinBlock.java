@@ -24,7 +24,7 @@ public class MixinBlock {
     public void afterBreak(World world_1, PlayerEntity playerEntity_1, BlockPos blockPos_1, BlockState blockState_1, @Nullable BlockEntity blockEntity_1, ItemStack itemStack_1, CallbackInfo ci) {
         if (!world_1.isClient) {
             BlockEvents.BlockDropsEvent blockDropsEvent = new BlockEvents.BlockDropsEvent(world_1, blockPos_1, blockState_1, Block.getDroppedStacks(blockState_1, (ServerWorld) world_1, blockPos_1, blockEntity_1), playerEntity_1, itemStack_1);
-            EventRegistry.fireEvent(blockDropsEvent);
+            EventRegistry.INSTANCE.fireEvent(blockDropsEvent);
 
             if (blockDropsEvent.isCanceled()) {
                 ci.cancel();

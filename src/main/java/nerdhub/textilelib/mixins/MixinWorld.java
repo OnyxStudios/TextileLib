@@ -35,7 +35,7 @@ public abstract class MixinWorld {
         }
 
         if (flag && ((World) (Object) this).isChunkLoaded(int_1, int_2)) {
-            EventRegistry.fireEvent(entityAddedEvent);
+            EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
             if (entityAddedEvent.isCanceled()) {
                 cir.setReturnValue(false);
                 cir.cancel();
@@ -47,7 +47,7 @@ public abstract class MixinWorld {
     public void loadEntities(Stream<Entity> stream_1, CallbackInfo ci) {
         stream_1.forEach((entity_1) -> {
             EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
-            EventRegistry.fireEvent(entityAddedEvent);
+            EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
             if (!entityAddedEvent.isCanceled()) {
                 this.entities.add(entity_1);
                 this.onEntityAdded(entity_1);

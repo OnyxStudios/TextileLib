@@ -20,7 +20,7 @@ public abstract class MixinServerWorld extends MixinWorld {
         stream_1.forEach((entity_1) -> {
             if (this.method_14175(entity_1)) {
                 EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
-                EventRegistry.fireEvent(entityAddedEvent);
+                EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
                 if(!entityAddedEvent.isCanceled()) {
                     this.entities.add(entity_1);
                     this.onEntityAdded(entity_1);

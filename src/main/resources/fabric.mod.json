@@ -2,7 +2,7 @@
   "id": "textilelib",
   "name": "TextileLib",
   "description": "Adding more events into the game",
-  "version": "1.0.0",
+  "version": "${version}",
   "side": "universal",
   "initializers": [
     "nerdhub.textilelib.TextileLib"

@@ -42,7 +42,7 @@ public class EventRegistry {
         }
     }
 
-    public <E extends Event> void registerEventHandler(Consumer<E> handler, Class<E> eventClass) {
+    public <E extends Event> void registerEventHandler(Class<E> eventClass, Consumer<E> handler) {
         classLambdaMultimap.put(eventClass, handler);
     }
 

@@ -22,7 +22,7 @@ There are currently 2 ways to register and use events and event handlers
 **Method 1:**
 
 Register a class that handles an event using
-`EventRegister.INSTANCE,registerEventHandler(ClassObject);`
+`EventRegister.INSTANCE.registerEventHandler(ClassObject);`
 
 Use `@EventSubscriber`on a method that will be called once an event is run
 

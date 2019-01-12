@@ -13,6 +13,9 @@ public class EventRegistry {
 
     public static EventRegistry INSTANCE = new EventRegistry();
 
+    // TODO: Using to compare Event class types as they may be loaded by different class loaders.
+    private static final String eventClassName = Event.class.getCanonicalName();
+
     private final Map<Method, Object> eventSubscriberMethods;
     private final Multimap<Class<? extends Event>, Method> classMethodMultimap;
     private final Multimap<Class<? extends Event>, Consumer<? extends Event>> classLambdaMultimap;
@@ -84,7 +87,7 @@ public class EventRegistry {
 
     private boolean implementsEvent(Class clazz) {
         do {
-            if(clazz == Event.class) {
+            if(clazz.getCanonicalName().equals(eventClassName)) {
                 return true;
             }
             clazz = clazz.getSuperclass();

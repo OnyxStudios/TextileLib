@@ -1,6 +1,7 @@
 package nerdhub.textilelib.events;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -35,15 +36,15 @@ public abstract class BlockEvent extends CancelableEvent {
 
     public static class BlockBreakEvent extends BlockEvent {
 
-        private PlayerEntity player;
+        private Entity entity;
 
-        public BlockBreakEvent(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        public BlockBreakEvent(World world, BlockPos pos, BlockState state, @Nullable Entity entity) {
             super(world, pos, state);
-            this.player = player;
+            this.entity = entity;
         }
 
-        public PlayerEntity getPlayer() {
-            return player;
+        public Entity getEntity() {
+            return entity;
         }
     }
 
@@ -75,21 +76,28 @@ public abstract class BlockEvent extends CancelableEvent {
 
     public static class BlockPlaceEvent extends BlockEvent {
 
-        private PlayerEntity placer;
+        private Entity placer;
         private BlockState placedOn;
 
-        public BlockPlaceEvent(World world, BlockPos pos, BlockState state, PlayerEntity placer, BlockState placedOn) {
+        public BlockPlaceEvent(World world, BlockPos pos, BlockState state, @Nullable Entity placer, BlockState placedOn) {
             super(world, pos, state);
             this.placer = placer;
             this.placedOn = placedOn;
         }
 
-        public PlayerEntity getPlacer() {
+        public Entity getPlacer() {
             return placer;
         }
 
         public BlockState getPlacedOn() {
             return placedOn;
+        }
+    }
+
+    public static class SpawnPortalEvent extends BlockEvent {
+
+        public SpawnPortalEvent(World world, BlockPos pos, BlockState state) {
+            super(world, pos, state);
         }
     }
 }

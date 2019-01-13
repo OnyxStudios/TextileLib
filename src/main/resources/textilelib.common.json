@@ -10,7 +10,8 @@
     "MixinWorld",
     "MixinPlayerEntity",
     "MixinMinecraftServer",
-    "MixinEntity"
+    "MixinEntity",
+    "MixinPortalBlock"
   ],
   "injectors": {
     "defaultRequire": 1

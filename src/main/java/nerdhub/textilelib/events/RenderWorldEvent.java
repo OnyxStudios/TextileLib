@@ -1,6 +1,5 @@
 package nerdhub.textilelib.events;
 
-import nerdhub.textilelib.eventhandlers.Event;
 import net.minecraft.client.render.WorldRenderer;
 
 public class RenderWorldEvent implements Event {

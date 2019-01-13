@@ -2,6 +2,7 @@ package nerdhub.textilelib.eventhandlers;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import nerdhub.textilelib.events.Event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,17 +31,19 @@ public class EventRegistry {
         for (Method method : clazz.getClass().getMethods()) {
 
             if(method.isAnnotationPresent(EventSubscriber.class)) {
-                if (method.getParameters().length > 1) {
-                    throw new UnsupportedOperationException("Cannot have multiple parameters on a @EventSubscriber method! Method Name: " + method.getName());
+
+                Class<?>[] parameterTypes = method.getParameterTypes();
+
+                Class eventClass = parameterTypes[0];
+
+                if (parameterTypes.length != 1) {
+                    throw new UnsupportedOperationException("There must only be one parameter that extends nerdhub.textilelib.events.Event "
+                            + method.getName());
                 }
 
-                for (Class paramClass : method.getParameterTypes()) {
-                    // TODO Figure out why this is broken
-//                    if(!implementsEvent(paramClass)) {
-//                        throw new UnsupportedOperationException("Event handler method's arguments must be a subtype of the Event interface. Method Name: " + method.getName());
-//                    }
+                if(Event.class.isAssignableFrom(parameterTypes[0])) {
                     eventSubscriberMethods.put(method, clazz);
-                    classMethodMultimap.put(paramClass, method);
+                    classMethodMultimap.put(eventClass, method);
                 }
             }
         }

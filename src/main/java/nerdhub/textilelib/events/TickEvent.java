@@ -1,6 +1,5 @@
 package nerdhub.textilelib.events;
 
-import nerdhub.textilelib.eventhandlers.Event;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;

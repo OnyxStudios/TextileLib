@@ -7,6 +7,7 @@ import nerdhub.textilelib.events.Event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -14,9 +15,6 @@ import java.util.function.Consumer;
 public class EventRegistry {
 
     public static EventRegistry INSTANCE = new EventRegistry();
-
-    // TODO: Using to compare Event class types as they may be loaded by different class loaders.
-    private static final String eventClassName = Event.class.getCanonicalName();
 
     private final Map<Method, Object> eventSubscriberMethods;
     private final Multimap<Class<? extends Event>, Method> classMethodMultimap;
@@ -29,22 +27,28 @@ public class EventRegistry {
     }
 
     public void registerEventHandler(Object clazz) {
-        for (Method method : clazz.getClass().getMethods()) {
-
-            if(method.isAnnotationPresent(EventSubscriber.class)) {
-
-                Class[] parameterTypes = method.getParameterTypes();
-
-                if (parameterTypes.length != 1) {
-                    throw new UnsupportedOperationException("There must only be one parameter that extends nerdhub.textilelib.events.Event "
-                            + method.getName());
-                }
-
-                if(Event.class.isAssignableFrom(parameterTypes[0])) {
-                    eventSubscriberMethods.put(method, clazz);
-                    classMethodMultimap.put(parameterTypes[0], method);
-                }
+        for (Method method : clazz.getClass().getDeclaredMethods()) {
+            if(!method.isAnnotationPresent(EventSubscriber.class)) {
+                continue;
             }
+
+            if(!Modifier.isPublic(method.getModifiers())) {
+                throw new UnsupportedOperationException("Event Subscriber methods must be public. Method: " + method.getName());
+            }
+
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            if (parameterTypes.length != 1) {
+                throw new UnsupportedOperationException("Event Subscriber methods must only accept one argument. Method: "
+                        + method.getName());
+            }
+
+            if(!Event.class.isAssignableFrom(parameterTypes[0])) {
+                throw new UnsupportedOperationException("Event Subscriber method arguments must be of type nerdhub.textilelib.events.Event. Method: "
+                        + method.getName());
+            }
+
+            eventSubscriberMethods.put(method, clazz);
+            classMethodMultimap.put((Class<? extends Event>)parameterTypes[0], method);
         }
     }
 
@@ -86,15 +90,5 @@ public class EventRegistry {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean implementsEvent(Class clazz) {
-        do {
-            if(clazz.getCanonicalName().equals(eventClassName)) {
-                return true;
-            }
-            clazz = clazz.getSuperclass();
-        } while (clazz != null);
-        return false;
     }
 }

@@ -2,6 +2,7 @@ package nerdhub.textilelib.eventhandlers;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import nerdhub.textilelib.events.CancelableEvent;
 import nerdhub.textilelib.events.Event;
 
 import java.lang.reflect.InvocationTargetException;

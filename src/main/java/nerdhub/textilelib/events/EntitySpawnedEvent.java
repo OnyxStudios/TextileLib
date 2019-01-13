@@ -1,6 +1,5 @@
 package nerdhub.textilelib.events;
 
-import nerdhub.textilelib.eventhandlers.CancelableEvent;
 import net.minecraft.entity.Entity;
 
 public class EntitySpawnedEvent extends CancelableEvent {

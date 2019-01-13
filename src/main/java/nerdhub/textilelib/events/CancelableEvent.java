@@ -1,6 +1,4 @@
-package nerdhub.textilelib.eventhandlers;
-
-import nerdhub.textilelib.events.Event;
+package nerdhub.textilelib.events;
 
 public abstract class CancelableEvent implements Event {
 

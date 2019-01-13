@@ -33,9 +33,7 @@ public class EventRegistry {
 
             if(method.isAnnotationPresent(EventSubscriber.class)) {
 
-                Class<?>[] parameterTypes = method.getParameterTypes();
-
-                Class eventClass = parameterTypes[0];
+                Class[] parameterTypes = method.getParameterTypes();
 
                 if (parameterTypes.length != 1) {
                     throw new UnsupportedOperationException("There must only be one parameter that extends nerdhub.textilelib.events.Event "
@@ -44,7 +42,7 @@ public class EventRegistry {
 
                 if(Event.class.isAssignableFrom(parameterTypes[0])) {
                     eventSubscriberMethods.put(method, clazz);
-                    classMethodMultimap.put(eventClass, method);
+                    classMethodMultimap.put(parameterTypes[0], method);
                 }
             }
         }

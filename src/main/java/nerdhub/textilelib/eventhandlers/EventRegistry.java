@@ -47,13 +47,17 @@ public class EventRegistry {
                         + method.getName());
             }
 
-            eventSubscriberMethods.put(method, clazz);
-            classMethodMultimap.put((Class<? extends Event>)parameterTypes[0], method);
+            synchronized (classMethodMultimap) {
+                eventSubscriberMethods.put(method, clazz);
+                classMethodMultimap.put((Class<? extends Event>)parameterTypes[0], method);
+            }
         }
     }
 
     public <E extends Event> void registerEventHandler(Class<E> eventClass, Consumer<E> handler) {
-        classLambdaMultimap.put(eventClass, handler);
+        synchronized (classLambdaMultimap) {
+            classLambdaMultimap.put(eventClass, handler);
+        }
     }
 
     public <T extends Event> void fireEvent(T event) {

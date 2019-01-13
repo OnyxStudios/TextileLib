@@ -2,6 +2,7 @@ package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.EntitySpawnedEvent;
+import nerdhub.textilelib.events.TickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.function.BooleanSupplier;
 import java.util.stream.Stream;
 
 @Mixin(World.class)
@@ -49,6 +51,12 @@ public abstract class MixinWorld {
         });
 
         ci.cancel();
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    public void tick(BooleanSupplier booleanSupplier_1, CallbackInfo ci) {
+        TickEvent.WorldTickEvent worldTickEvent = new TickEvent.WorldTickEvent((World) (Object) this);
+        EventRegistry.INSTANCE.fireEvent(worldTickEvent);
     }
 
     @Shadow

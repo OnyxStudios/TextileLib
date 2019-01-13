@@ -3,6 +3,7 @@ package nerdhub.textilelib.events;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
 
 public abstract class TickEvent implements Event {
 
@@ -51,6 +52,19 @@ public abstract class TickEvent implements Event {
 
         public PlayerEntity getPlayer() {
             return player;
+        }
+    }
+
+    public static class WorldTickEvent extends TickEvent {
+
+        private World world;
+
+        public WorldTickEvent(World world) {
+            this.world = world;
+        }
+
+        public World getWorld() {
+            return world;
         }
     }
 }

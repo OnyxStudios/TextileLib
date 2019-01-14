@@ -19,7 +19,7 @@ public class MixinGameRenderer {
     private MinecraftClient client;
 
     //TODO Map to renderWorld
-    @Inject(method = "method_3178", at = @At("HEAD"))
+    @Inject(method = "method_3178", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 17, shift = At.Shift.BEFORE))
     private void method_3178(float float_1, long long_1, CallbackInfo ci) {
         this.client.getProfiler().swap("textilelib_render_world");
         RenderWorldEvent renderWorldEvent = new RenderWorldEvent(this.client.renderer, float_1);

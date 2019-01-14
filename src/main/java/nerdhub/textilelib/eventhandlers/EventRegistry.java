@@ -2,14 +2,11 @@ package nerdhub.textilelib.eventhandlers;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import nerdhub.textilelib.events.BlockEvent;
 import nerdhub.textilelib.events.CancelableEvent;
 import nerdhub.textilelib.events.Event;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.function.Consumer;
@@ -26,8 +23,6 @@ public class EventRegistry {
         methodLookup = MethodHandles.publicLookup();
         classMethodMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
         classLambdaMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
-
-        registerEventHandler(this);
     }
 
     public void registerEventHandler(Object clazz) {
@@ -102,10 +97,5 @@ public class EventRegistry {
                 return;
             }
         }
-    }
-
-    @EventSubscriber
-    public void handleBlockBreakEvent(BlockEvent.BlockBreakEvent event) {
-        System.out.println("Block broke");
     }
 }

@@ -22,13 +22,17 @@ public class EventRegistry {
         classLambdaMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
     }
 
-    public void registerEventHandler(Object clazz) {
-        for (Method method : clazz.getClass().getDeclaredMethods()) {
-            if(!method.isAnnotationPresent(EventSubscriber.class)) {
+    public void registerEventHandler(Object eventHandler) {
+        registerEventHandler(eventHandler.getClass());
+    }
+
+    public void registerEventHandler(Class eventHandlerClazz) {
+        for (Method method : eventHandlerClazz.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(EventSubscriber.class)) {
                 continue;
             }
 
-            if(!Modifier.isStatic(method.getModifiers())) {
+            if (!Modifier.isStatic(method.getModifiers())) {
                 throw new UnsupportedOperationException("Event Subscriber methods must be static. Method: " + method.getName());
             }
 
@@ -38,7 +42,7 @@ public class EventRegistry {
                         + method.getName());
             }
 
-            if(!Event.class.isAssignableFrom(parameterTypes[0])) {
+            if (!Event.class.isAssignableFrom(parameterTypes[0])) {
                 throw new UnsupportedOperationException("Event Subscriber method arguments must be of type nerdhub.textilelib.events.Event. Method: "
                         + method.getName());
             }
@@ -47,17 +51,17 @@ public class EventRegistry {
                 MethodHandle mh = methodLookup.unreflect(method);
                 Consumer<? extends Event> methodLambda =
                         (Consumer<? extends Event>) LambdaMetafactory
-                            .metafactory(
-                                methodLookup,
-                                "accept",
-                                MethodType.methodType(Consumer.class),
-                                MethodType.methodType(void.class, Object.class),
-                                mh,
-                                MethodType.methodType(void.class, parameterTypes[0]))
-                            .getTarget().invoke();
+                                .metafactory(
+                                        methodLookup,
+                                        "accept",
+                                        MethodType.methodType(Consumer.class),
+                                        MethodType.methodType(void.class, Object.class),
+                                        mh,
+                                        MethodType.methodType(void.class, parameterTypes[0]))
+                                .getTarget().invoke();
 
                 synchronized (classLambdaMultimap) {
-                    classLambdaMultimap.put((Class<? extends Event>)parameterTypes[0], methodLambda);
+                    classLambdaMultimap.put((Class<? extends Event>) parameterTypes[0], methodLambda);
                 }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException("Method visibility has changed while being operated on. Method: " + method.getName(), e);
@@ -76,15 +80,15 @@ public class EventRegistry {
     }
 
     public <T extends Event> void fireEvent(T event) {
-        for(Consumer<? extends Event> consumer: classLambdaMultimap.get(event.getClass())) {
-            ((Consumer<T>)consumer).accept(event);
+        for (Consumer<? extends Event> consumer : classLambdaMultimap.get(event.getClass())) {
+            ((Consumer<T>) consumer).accept(event);
         }
     }
 
     public <T extends CancelableEvent> void fireEvent(T event) {
-        for(Consumer consumer: classLambdaMultimap.get(event.getClass())) {
+        for (Consumer consumer : classLambdaMultimap.get(event.getClass())) {
             consumer.accept(event);
-            if(event.isCanceled()) {
+            if (event.isCanceled()) {
                 return;
             }
         }

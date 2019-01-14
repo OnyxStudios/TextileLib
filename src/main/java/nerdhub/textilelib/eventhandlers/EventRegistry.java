@@ -2,28 +2,32 @@ package nerdhub.textilelib.eventhandlers;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import nerdhub.textilelib.events.BlockEvent;
 import nerdhub.textilelib.events.CancelableEvent;
 import nerdhub.textilelib.events.Event;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class EventRegistry {
 
     public static EventRegistry INSTANCE = new EventRegistry();
 
-    private final Map<Method, Object> eventSubscriberMethods;
-    private final Multimap<Class<? extends Event>, Method> classMethodMultimap;
+    private final Multimap<Class<? extends Event>, MethodHandle> classMethodMultimap;
     private final Multimap<Class<? extends Event>, Consumer<? extends Event>> classLambdaMultimap;
+    private final MethodHandles.Lookup methodLookup;
 
     private EventRegistry() {
-        eventSubscriberMethods = new HashMap<>();
+        methodLookup = MethodHandles.publicLookup();
         classMethodMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
         classLambdaMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
+
+        registerEventHandler(this);
     }
 
     public void registerEventHandler(Object clazz) {
@@ -47,9 +51,15 @@ public class EventRegistry {
                         + method.getName());
             }
 
-            synchronized (classMethodMultimap) {
-                eventSubscriberMethods.put(method, clazz);
-                classMethodMultimap.put((Class<? extends Event>)parameterTypes[0], method);
+            try {
+                MethodHandle temp = methodLookup.unreflect(method);
+                temp = temp.bindTo(clazz);
+
+                synchronized (classMethodMultimap) {
+                    classMethodMultimap.put((Class<? extends Event>)parameterTypes[0], temp);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Method visibility has changed while being operated on. Method: " + method.getName());
             }
         }
     }
@@ -61,8 +71,12 @@ public class EventRegistry {
     }
 
     public <T extends Event> void fireEvent(T event) {
-        for (Method method : classMethodMultimap.get(event.getClass())) {
-            invokeMethod(eventSubscriberMethods.get(method), method, event);
+        for (MethodHandle method : classMethodMultimap.get(event.getClass())) {
+            try {
+                method.invoke(event);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         }
 
         for(Consumer<? extends Event> consumer: classLambdaMultimap.get(event.getClass())) {
@@ -71,10 +85,14 @@ public class EventRegistry {
     }
 
     public <T extends CancelableEvent> void fireEvent(T event) {
-        for (Method method : classMethodMultimap.get(event.getClass())) {
-            invokeMethod(eventSubscriberMethods.get(method), method, event);
-            if(event.isCanceled()) {
-                return;
+        for (MethodHandle method : classMethodMultimap.get(event.getClass())) {
+            try {
+                method.invoke(event);
+                if(event.isCanceled()) {
+                    return;
+                }
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
             }
         }
 
@@ -86,13 +104,8 @@ public class EventRegistry {
         }
     }
 
-    private void invokeMethod(Object classOBject, Method method, Event event) {
-        try {
-            method.invoke(classOBject, event);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+    @EventSubscriber
+    public void handleBlockBreakEvent(BlockEvent.BlockBreakEvent event) {
+        System.out.println("Block broke");
     }
 }

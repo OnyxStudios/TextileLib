@@ -5,8 +5,7 @@ import com.google.common.collect.MultimapBuilder;
 import nerdhub.textilelib.events.CancelableEvent;
 import nerdhub.textilelib.events.Event;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
+import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.function.Consumer;
@@ -15,13 +14,11 @@ public class EventRegistry {
 
     public static EventRegistry INSTANCE = new EventRegistry();
 
-    private final Multimap<Class<? extends Event>, MethodHandle> classMethodMultimap;
     private final Multimap<Class<? extends Event>, Consumer<? extends Event>> classLambdaMultimap;
     private final MethodHandles.Lookup methodLookup;
 
     private EventRegistry() {
-        methodLookup = MethodHandles.publicLookup();
-        classMethodMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
+        methodLookup = MethodHandles.lookup();
         classLambdaMultimap = MultimapBuilder.hashKeys().hashSetValues().build();
     }
 
@@ -31,8 +28,8 @@ public class EventRegistry {
                 continue;
             }
 
-            if(!Modifier.isPublic(method.getModifiers())) {
-                throw new UnsupportedOperationException("Event Subscriber methods must be public. Method: " + method.getName());
+            if(!Modifier.isStatic(method.getModifiers())) {
+                throw new UnsupportedOperationException("Event Subscriber methods must be static. Method: " + method.getName());
             }
 
             Class<?>[] parameterTypes = method.getParameterTypes();
@@ -47,14 +44,27 @@ public class EventRegistry {
             }
 
             try {
-                MethodHandle temp = methodLookup.unreflect(method);
-                temp = temp.bindTo(clazz);
+                MethodHandle mh = methodLookup.unreflect(method);
+                Consumer<? extends Event> methodLambda =
+                        (Consumer<? extends Event>) LambdaMetafactory
+                            .metafactory(
+                                methodLookup,
+                                "accept",
+                                MethodType.methodType(Consumer.class),
+                                MethodType.methodType(void.class, Object.class),
+                                mh,
+                                MethodType.methodType(void.class, parameterTypes[0]))
+                            .getTarget().invoke();
 
-                synchronized (classMethodMultimap) {
-                    classMethodMultimap.put((Class<? extends Event>)parameterTypes[0], temp);
+                synchronized (classLambdaMultimap) {
+                    classLambdaMultimap.put((Class<? extends Event>)parameterTypes[0], methodLambda);
                 }
             } catch (IllegalAccessException e) {
-                throw new RuntimeException("Method visibility has changed while being operated on. Method: " + method.getName());
+                throw new RuntimeException("Method visibility has changed while being operated on. Method: " + method.getName(), e);
+            } catch (LambdaConversionException e) {
+                throw new RuntimeException("PLEASE REPORT THIS: Method was unable to be converted to a lambda. Method: " + method.getName(), e);
+            } catch (Throwable throwable) {
+                throw new RuntimeException("PLEASE REPORT THIS: Exception thrown during lambda construction. Method: " + method.getName(), throwable);
             }
         }
     }
@@ -66,33 +76,14 @@ public class EventRegistry {
     }
 
     public <T extends Event> void fireEvent(T event) {
-        for (MethodHandle method : classMethodMultimap.get(event.getClass())) {
-            try {
-                method.invoke(event);
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }
-
         for(Consumer<? extends Event> consumer: classLambdaMultimap.get(event.getClass())) {
             ((Consumer<T>)consumer).accept(event);
         }
     }
 
     public <T extends CancelableEvent> void fireEvent(T event) {
-        for (MethodHandle method : classMethodMultimap.get(event.getClass())) {
-            try {
-                method.invoke(event);
-                if(event.isCanceled()) {
-                    return;
-                }
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }
-
-        for(Consumer<? extends Event> consumer: classLambdaMultimap.get(event.getClass())) {
-            ((Consumer<T>)consumer).accept(event);
+        for(Consumer consumer: classLambdaMultimap.get(event.getClass())) {
+            consumer.accept(event);
             if(event.isCanceled()) {
                 return;
             }

@@ -6,5 +6,4 @@ public abstract class TickEvent implements Event {
 
     public TickEvent() {
     }
-
 }

@@ -1,6 +1,5 @@
 package nerdhub.textilelib.events.tick;
 
-import nerdhub.textilelib.events.tick.TickEvent;
 import net.minecraft.world.World;
 
 public class WorldTickEvent extends TickEvent {

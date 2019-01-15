@@ -1,12 +1,12 @@
-package nerdhub.textilelib.events;
+package nerdhub.textilelib.events.tick;
 
 import net.minecraft.entity.Entity;
 
-public class EntitySpawnedEvent extends CancelableEvent {
+public class EntityTickEvent extends TickEvent {
 
     private Entity entity;
 
-    public EntitySpawnedEvent(Entity entity) {
+    public EntityTickEvent(Entity entity) {
         this.entity = entity;
     }
 

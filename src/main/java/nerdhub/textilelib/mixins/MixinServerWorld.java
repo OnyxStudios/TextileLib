@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.EntitySpawnedEvent;
+import nerdhub.textilelib.events.entity.EntitySpawnedEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;

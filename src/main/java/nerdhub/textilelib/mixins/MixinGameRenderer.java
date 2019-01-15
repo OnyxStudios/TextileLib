@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.RenderWorldEvent;
+import nerdhub.textilelib.events.render.RenderWorldEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.*;

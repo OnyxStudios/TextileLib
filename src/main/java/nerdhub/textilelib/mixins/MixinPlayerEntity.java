@@ -1,8 +1,8 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.PlayerInteractEntityEvent;
-import nerdhub.textilelib.events.PlayerTickEvent;
+import nerdhub.textilelib.events.entity.player.PlayerInteractEntityEvent;
+import nerdhub.textilelib.events.tick.PlayerTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;

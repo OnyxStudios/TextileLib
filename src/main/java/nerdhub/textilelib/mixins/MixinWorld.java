@@ -1,8 +1,8 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.EntitySpawnedEvent;
-import nerdhub.textilelib.events.WorldTickEvent;
+import nerdhub.textilelib.events.entity.EntitySpawnedEvent;
+import nerdhub.textilelib.events.tick.WorldTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;

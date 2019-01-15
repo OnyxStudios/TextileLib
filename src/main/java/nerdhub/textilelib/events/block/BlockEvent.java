@@ -1,5 +1,6 @@
-package nerdhub.textilelib.events;
+package nerdhub.textilelib.events.block;
 
+import nerdhub.textilelib.events.CancelableEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

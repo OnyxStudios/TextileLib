@@ -1,4 +1,4 @@
-package nerdhub.textilelib.events;
+package nerdhub.textilelib.events.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;

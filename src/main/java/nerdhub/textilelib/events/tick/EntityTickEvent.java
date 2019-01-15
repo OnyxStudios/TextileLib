@@ -1,4 +1,4 @@
-package nerdhub.textilelib.events;
+package nerdhub.textilelib.events.tick;
 
 import net.minecraft.entity.Entity;
 

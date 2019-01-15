@@ -1,5 +1,6 @@
-package nerdhub.textilelib.events;
+package nerdhub.textilelib.events.entity.player;
 
+import nerdhub.textilelib.events.CancelableEvent;
 import net.minecraft.entity.player.PlayerEntity;
 
 public abstract class PlayerEvent extends CancelableEvent {

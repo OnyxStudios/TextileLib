@@ -1,8 +1,8 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.ClientTickEvent;
-import nerdhub.textilelib.events.PlayerSwingEvent;
+import nerdhub.textilelib.events.tick.ClientTickEvent;
+import nerdhub.textilelib.events.entity.player.PlayerSwingEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.HitResult;
 import org.spongepowered.asm.mixin.Mixin;

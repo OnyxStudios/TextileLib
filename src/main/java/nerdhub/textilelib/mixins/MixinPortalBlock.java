@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.SpawnPortalEvent;
+import nerdhub.textilelib.events.block.SpawnPortalEvent;
 import net.minecraft.block.PortalBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;

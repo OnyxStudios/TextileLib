@@ -2,7 +2,7 @@ package nerdhub.textilelib;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import nerdhub.textilelib.eventhandlers.EventSubscriber;
-import nerdhub.textilelib.events.RenderWorldEvent;
+import nerdhub.textilelib.events.render.RenderWorldEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;

@@ -1,4 +1,4 @@
-package nerdhub.textilelib.events;
+package nerdhub.textilelib.events.entity.player;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;

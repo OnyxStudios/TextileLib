@@ -3,6 +3,7 @@ package nerdhub.textilelib.mixins;
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.block.BlockBreakEvent;
 import nerdhub.textilelib.events.entity.player.PlayerInteractBlockEvent;
+import net.minecraft.client.network.packet.BlockUpdateClientPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -35,6 +36,11 @@ public class MixinServerPlayerInteractionManager {
         if (blockBreakEvent.isCanceled()) {
             cir.setReturnValue(false);
             cir.cancel();
+
+            // Update client as they will believe they have broken the block.
+            if(player != null) {
+                this.player.networkHandler.sendPacket(new BlockUpdateClientPacket(world, blockPos_1));
+            }
         }
     }
 

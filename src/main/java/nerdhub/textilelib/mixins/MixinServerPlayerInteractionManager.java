@@ -1,8 +1,8 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.BlockEvent;
-import nerdhub.textilelib.events.PlayerEvent;
+import nerdhub.textilelib.events.block.BlockBreakEvent;
+import nerdhub.textilelib.events.entity.player.PlayerInteractBlockEvent;
 import net.minecraft.client.network.packet.BlockUpdateClientPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -30,7 +30,7 @@ public class MixinServerPlayerInteractionManager {
 
     @Inject(method = "destroyBlock", at = @At("HEAD"), cancellable = true)
     private void destroyBlock(BlockPos blockPos_1, CallbackInfoReturnable cir) {
-        BlockEvent.BlockBreakEvent blockBreakEvent = new BlockEvent.BlockBreakEvent(world, blockPos_1, world.getBlockState(blockPos_1), player);
+        BlockBreakEvent blockBreakEvent = new BlockBreakEvent(world, blockPos_1, world.getBlockState(blockPos_1), player);
         EventRegistry.INSTANCE.fireEvent(blockBreakEvent);
 
         if (blockBreakEvent.isCanceled()) {
@@ -46,7 +46,7 @@ public class MixinServerPlayerInteractionManager {
 
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
     public void interactBlock(PlayerEntity playerEntity_1, World world_1, ItemStack itemStack_1, Hand hand_1, BlockPos blockPos_1, Direction direction_1, float float_1, float float_2, float float_3, CallbackInfoReturnable cir) {
-        PlayerEvent.InteractBlockEvent interactBlockEvent = new PlayerEvent.InteractBlockEvent(playerEntity_1, playerEntity_1.getActiveHand(), world_1.getBlockState(blockPos_1), blockPos_1);
+        PlayerInteractBlockEvent interactBlockEvent = new PlayerInteractBlockEvent(playerEntity_1, playerEntity_1.getActiveHand(), world_1.getBlockState(blockPos_1), blockPos_1);
         EventRegistry.INSTANCE.fireEvent(interactBlockEvent);
 
         if(interactBlockEvent.isCanceled()) {

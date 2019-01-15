@@ -1,13 +1,10 @@
 package nerdhub.textilelib.eventhandlers;
 
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
-import nerdhub.textilelib.events.CancelableEvent;
-import nerdhub.textilelib.events.Event;
+import com.google.common.collect.*;
+import nerdhub.textilelib.events.*;
 
 import java.lang.invoke.*;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.function.Consumer;
 
 public class EventRegistry {
@@ -86,8 +83,8 @@ public class EventRegistry {
     }
 
     public <T extends CancelableEvent> void fireEvent(T event) {
-        for (Consumer consumer : classLambdaMultimap.get(event.getClass())) {
-            consumer.accept(event);
+        for (Consumer<? extends Event> consumer : classLambdaMultimap.get(event.getClass())) {
+            ((Consumer<T>) consumer).accept(event);
             if (event.isCanceled()) {
                 return;
             }

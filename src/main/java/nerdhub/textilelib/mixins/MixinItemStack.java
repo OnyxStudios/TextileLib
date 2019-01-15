@@ -2,11 +2,14 @@ package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.block.BlockPlaceEvent;
+import nerdhub.textilelib.events.render.TooltipBuildEvent;
 import net.minecraft.block.Block;
+import net.minecraft.client.item.TooltipOptions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.block.BlockItem;
+import net.minecraft.text.TextComponent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -15,6 +18,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 @Mixin(ItemStack.class)
 public class MixinItemStack {
@@ -36,5 +42,11 @@ public class MixinItemStack {
                 cir.cancel();
             }
         }
+    }
+
+    @Inject(method = "getTooltipText", at = @At("RETURN"))
+    public void getTooltipText(@Nullable PlayerEntity playerEntity_1, TooltipOptions tooltipOptions_1, CallbackInfoReturnable cir) {
+        TooltipBuildEvent tooltipBuildEvent = new TooltipBuildEvent((ItemStack) (Object) this, (List<TextComponent>) cir.getReturnValue());
+        EventRegistry.INSTANCE.fireEvent(tooltipBuildEvent);
     }
 }

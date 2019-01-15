@@ -5,30 +5,26 @@ import nerdhub.textilelib.events.entity.player.PlayerInteractEntityEvent;
 import nerdhub.textilelib.events.tick.PlayerTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity {
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    public void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable cir) {
+    private void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable<ActionResult> cir) {
         PlayerInteractEntityEvent playerInteractEntity = new PlayerInteractEntityEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
         EventRegistry.INSTANCE.fireEvent(playerInteractEntity);
-
-        if (playerInteractEntity.isCanceled()) {
+        if(playerInteractEntity.isCanceled()) {
             cir.setReturnValue(ActionResult.FAILURE);
             cir.cancel();
         }
     }
 
     @Inject(method = "update", at = @At("HEAD"))
-    public void update(CallbackInfo ci) {
+    private void update(CallbackInfo ci) {
         PlayerTickEvent playerTickEvent = new PlayerTickEvent((PlayerEntity) (Object) this);
         EventRegistry.INSTANCE.fireEvent(playerTickEvent);
     }

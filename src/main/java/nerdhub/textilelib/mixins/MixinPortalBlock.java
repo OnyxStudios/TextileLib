@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.BlockEvent;
+import nerdhub.textilelib.events.SpawnPortalEvent;
 import net.minecraft.block.PortalBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -16,7 +16,7 @@ public class MixinPortalBlock {
     //TODO map this to attemptPortalSpawn
     @Inject(method = "method_10352", at = @At("HEAD"), cancellable = true)
     public void method_10352(IWorld iWorld_1, BlockPos blockPos_1, CallbackInfoReturnable cir) {
-        BlockEvent.SpawnPortalEvent spawnPortalEvent = new BlockEvent.SpawnPortalEvent(iWorld_1.getWorld(), blockPos_1, iWorld_1.getBlockState(blockPos_1));
+        SpawnPortalEvent spawnPortalEvent = new SpawnPortalEvent(iWorld_1.getWorld(), blockPos_1, iWorld_1.getBlockState(blockPos_1));
         EventRegistry.INSTANCE.fireEvent(spawnPortalEvent);
 
         if(spawnPortalEvent.isCanceled()) {

@@ -1,8 +1,8 @@
 package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
-import nerdhub.textilelib.events.PlayerEvent;
-import nerdhub.textilelib.events.TickEvent;
+import nerdhub.textilelib.events.PlayerInteractEntityEvent;
+import nerdhub.textilelib.events.PlayerTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -18,7 +18,7 @@ public abstract class MixinPlayerEntity {
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
     public void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable cir) {
-        PlayerEvent.InteractEntityEvent playerInteractEntity = new PlayerEvent.InteractEntityEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
+        PlayerInteractEntityEvent playerInteractEntity = new PlayerInteractEntityEvent((PlayerEntity) (Object) this, ((PlayerEntity) (Object) this).getActiveHand(), entity_1);
         EventRegistry.INSTANCE.fireEvent(playerInteractEntity);
 
         if (playerInteractEntity.isCanceled()) {
@@ -29,7 +29,7 @@ public abstract class MixinPlayerEntity {
 
     @Inject(method = "update", at = @At("HEAD"))
     public void update(CallbackInfo ci) {
-        TickEvent.PlayerTickEvent playerTickEvent = new TickEvent.PlayerTickEvent((PlayerEntity) (Object) this);
+        PlayerTickEvent playerTickEvent = new PlayerTickEvent((PlayerEntity) (Object) this);
         EventRegistry.INSTANCE.fireEvent(playerTickEvent);
     }
 }

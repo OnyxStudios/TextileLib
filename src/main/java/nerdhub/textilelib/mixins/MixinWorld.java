@@ -2,7 +2,7 @@ package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.EntitySpawnedEvent;
-import nerdhub.textilelib.events.TickEvent;
+import nerdhub.textilelib.events.WorldTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
@@ -55,7 +55,7 @@ public abstract class MixinWorld {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(BooleanSupplier booleanSupplier_1, CallbackInfo ci) {
-        TickEvent.WorldTickEvent worldTickEvent = new TickEvent.WorldTickEvent((World) (Object) this);
+        WorldTickEvent worldTickEvent = new WorldTickEvent((World) (Object) this);
         EventRegistry.INSTANCE.fireEvent(worldTickEvent);
     }
 

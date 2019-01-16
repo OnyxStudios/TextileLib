@@ -45,8 +45,8 @@ public class MixinItemStack {
     }
 
     @Inject(method = "getTooltipText", at = @At("RETURN"))
-    public void getTooltipText(@Nullable PlayerEntity playerEntity_1, TooltipOptions tooltipOptions_1, CallbackInfoReturnable cir) {
-        TooltipBuildEvent tooltipBuildEvent = new TooltipBuildEvent((ItemStack) (Object) this, (List<TextComponent>) cir.getReturnValue());
+    public void getTooltipText(@Nullable PlayerEntity playerEntity_1, TooltipOptions tooltipOptions_1, CallbackInfoReturnable<List<TextComponent>> cir) {
+        TooltipBuildEvent tooltipBuildEvent = new TooltipBuildEvent((ItemStack) (Object) this, cir.getReturnValue(), tooltipOptions_1);
         EventRegistry.INSTANCE.fireEvent(tooltipBuildEvent);
     }
 }

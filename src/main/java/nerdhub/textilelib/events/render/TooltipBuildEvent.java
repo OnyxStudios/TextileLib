@@ -1,6 +1,7 @@
 package nerdhub.textilelib.events.render;
 
 import nerdhub.textilelib.events.Event;
+import net.minecraft.client.item.TooltipOptions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TextComponent;
 
@@ -10,10 +11,12 @@ public class TooltipBuildEvent implements Event {
 
     private ItemStack stack;
     private List<TextComponent> list;
+    private TooltipOptions tooltipOptions;
 
-    public TooltipBuildEvent(ItemStack stack, List<TextComponent> list) {
+    public TooltipBuildEvent(ItemStack stack, List<TextComponent> list, TooltipOptions tooltipOptions) {
         this.stack = stack;
         this.list = list;
+        this.tooltipOptions = tooltipOptions;
     }
 
     public ItemStack getStack() {
@@ -22,5 +25,9 @@ public class TooltipBuildEvent implements Event {
 
     public List<TextComponent> getList() {
         return list;
+    }
+
+    public TooltipOptions getTooltipOptions() {
+        return tooltipOptions;
     }
 }

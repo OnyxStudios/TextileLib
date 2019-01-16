@@ -1,8 +1,11 @@
 package nerdhub.textilelib.events.render;
 
 import nerdhub.textilelib.events.Event;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Gui;
 
+@Environment(EnvType.CLIENT)
 public class GuiDrawEvent implements Event {
 
     private Gui gui;

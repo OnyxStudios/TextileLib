@@ -1,8 +1,11 @@
 package nerdhub.textilelib.events.render;
 
 import nerdhub.textilelib.events.Event;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.WorldRenderer;
 
+@Environment(EnvType.CLIENT)
 public class RenderWorldEvent implements Event {
 
     private WorldRenderer worldRenderer;

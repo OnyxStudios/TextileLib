@@ -1,12 +1,15 @@
 package nerdhub.textilelib.events.render;
 
 import nerdhub.textilelib.events.Event;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipOptions;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TextComponent;
 
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class TooltipBuildEvent implements Event {
 
     private ItemStack stack;

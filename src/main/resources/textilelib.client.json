@@ -5,7 +5,8 @@
   "mixins": [
     "MixinGameRenderer",
     "MixinMinecraftClient",
-    "MixinClientPlayerInteractionManager"
+    "MixinClientPlayerInteractionManager",
+    "MixinGui"
   ],
   "injectors": {
     "defaultRequire": 1

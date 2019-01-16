@@ -2,16 +2,22 @@ package nerdhub.textilelib.mixins;
 
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.block.BlockPlaceEvent;
+import nerdhub.textilelib.events.render.TooltipBuildEvent;
 import net.minecraft.block.Block;
+import net.minecraft.client.item.TooltipOptions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.item.block.BlockItem;
+import net.minecraft.text.TextComponent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 @Mixin(ItemStack.class)
 public abstract class MixinItemStack {
@@ -31,5 +37,11 @@ public abstract class MixinItemStack {
                 cir.cancel();
             }
         }
+    }
+
+    @Inject(method = "getTooltipText", at = @At("RETURN"))
+    private void getTooltipText(@Nullable PlayerEntity playerEntity_1, TooltipOptions tooltipOptions_1, CallbackInfoReturnable<List<TextComponent>> cir) {
+        TooltipBuildEvent tooltipBuildEvent = new TooltipBuildEvent((ItemStack) (Object) this, cir.getReturnValue(), tooltipOptions_1);
+        EventRegistry.INSTANCE.fireEvent(tooltipBuildEvent);
     }
 }

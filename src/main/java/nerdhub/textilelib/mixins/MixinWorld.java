@@ -49,7 +49,7 @@ public abstract class MixinWorld {
     }
 
     @Shadow
-    abstract void onEntityAdded(Entity entity_1);
+    protected abstract void onEntityAdded(Entity entity_1);
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(BooleanSupplier booleanSupplier_1, CallbackInfo ci) {

@@ -110,7 +110,7 @@ publishing {
     }
 
     repositories {
-        //mavenLocal() //uncomment htis to publis hto the local maven
+        //mavenLocal() //uncomment this to publish to the local maven
 
         //publish to the nerdhub maven if credentials are set
         if (project.hasProperty("nerdhub_maven_user")) {
@@ -128,3 +128,5 @@ publishing {
         }
     }
 }
+tasks.build.dependsOn javadocJar
+tasks.publish.dependsOn build

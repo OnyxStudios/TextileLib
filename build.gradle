@@ -86,7 +86,22 @@ publishing {
     }
 
     repositories {
-        mavenLocal()
+        //mavenLocal() //uncomment htis to publis hto the local maven
+
+        //publish to the nerdhub maven if credentials are set
+        if(project.hasProperty("nerdhub_maven_user")) {
+            maven {
+                name = "NerdHub"
+                credentials {
+                    username = findProperty("nerdhub_maven_user")
+                    password = findProperty("nerdhub_maven_pass")
+                }
+                authentication {
+                    basic(BasicAuthentication)
+                }
+                url = findProperty("nerdhub_maven_url")
+            }
+        }
     }
 }
 tasks.build.dependsOn javadocJar

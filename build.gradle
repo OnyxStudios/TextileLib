@@ -82,6 +82,25 @@ publishing {
             artifact jar
             artifact javadocJar
             artifact sourcesJar
+            pom {
+                name = "TextileLib"
+                url = "https://github.com/NerdHubMC/TextileLib"
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/NerdHubMC/TextileLib/blob/master/LICENSE.md"
+                    }
+                }
+                scm {
+                    url = "https://github.com/NerdHubMC/TextileLib"
+                    connection = "scm:git:git://github.com/NerdHubMC/TextileLib.git"
+                    developerConnection = "scm:git:git@github.com:NerdHubMC/TextileLib.git"
+                }
+                issueManagement {
+                    system = "github"
+                    url = "https://github.com/NerdHubMC/TextileLib/issues"
+                }
+            }
         }
     }
 
@@ -89,7 +108,7 @@ publishing {
         //mavenLocal() //uncomment htis to publis hto the local maven
 
         //publish to the nerdhub maven if credentials are set
-        if(project.hasProperty("nerdhub_maven_user")) {
+        if (project.hasProperty("nerdhub_maven_user")) {
             maven {
                 name = "NerdHub"
                 credentials {

@@ -33,5 +33,5 @@ public abstract class MixinServerWorld extends MixinWorld {
     abstract boolean method_14175(Entity entity_1);
 
     @Shadow
-    abstract void onEntityAdded(Entity entity_1);
+    protected abstract void onEntityAdded(Entity entity_1);
 }

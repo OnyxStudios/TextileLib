@@ -16,10 +16,10 @@ public abstract class MixinGameRenderer {
     private MinecraftClient client;
 
     //TODO Map to renderWorld
-    @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = "ldc=entities", shift = At.Shift.BEFORE), method = "method_3178")
+    @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = "ldc=entities", shift = At.Shift.BEFORE), method = "renderCenter")
     private void method_3178(float float_1, long long_1, CallbackInfo ci) {
         this.client.getProfiler().swap("textilelib_render_world");
-        RenderWorldEvent renderWorldEvent = new RenderWorldEvent(this.client.renderer, float_1);
+        RenderWorldEvent renderWorldEvent = new RenderWorldEvent(this.client.worldRenderer, float_1);
         EventRegistry.INSTANCE.fireEvent(renderWorldEvent);
     }
 }

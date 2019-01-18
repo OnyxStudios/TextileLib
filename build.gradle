@@ -76,17 +76,56 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
 }
 
+artifacts {
+    archives javadocJar
+	archives sourcesJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact jar
             artifact javadocJar
             artifact sourcesJar
+            pom {
+                name = "TextileLib"
+                url = "https://github.com/NerdHubMC/TextileLib"
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/NerdHubMC/TextileLib/blob/master/LICENSE.md"
+                    }
+                }
+                scm {
+                    url = "https://github.com/NerdHubMC/TextileLib"
+                    connection = "scm:git:git://github.com/NerdHubMC/TextileLib.git"
+                    developerConnection = "scm:git:git@github.com:NerdHubMC/TextileLib.git"
+                }
+                issueManagement {
+                    system = "github"
+                    url = "https://github.com/NerdHubMC/TextileLib/issues"
+                }
+            }
         }
     }
 
     repositories {
-        mavenLocal()
+        //mavenLocal() //uncomment this to publish to the local maven
+
+        //publish to the nerdhub maven if credentials are set
+        if (project.hasProperty("nerdhub_maven_user")) {
+            maven {
+                name = "NerdHub"
+                url = findProperty("nerdhub_maven_url")
+                credentials {
+                    username = findProperty("nerdhub_maven_user")
+                    password = findProperty("nerdhub_maven_pass")
+                }
+                authentication {
+                    basic(BasicAuthentication)
+                }
+            }
+        }
     }
 }
 tasks.build.dependsOn javadocJar

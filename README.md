@@ -17,6 +17,8 @@ dependencies {
 }
 ```
 
+~*Note: You can find the latest versions over at the maven *https://maven.abusedmaster.xyz/com/github/NerdHubMC/TextileLib**
+
 There are currently 2 ways to register and use events and event handlers
 
 **Method 1:**
@@ -33,7 +35,7 @@ public static void onEntitySpawned(EntitySpawnedEvent event) {
 	System.out.println(event.getEntity().getName() + " Has been spawned in the world!");
 }
 ```
-~*Note: all @EventSubscriber methods **must** be static!*
+~*Note: All @EventSubscriber methods **must** be static!*
 
 **Method 2:**
 Create a method that takes in the event as a parameter. Then call that method using the example below

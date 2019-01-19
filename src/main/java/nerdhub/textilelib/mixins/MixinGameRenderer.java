@@ -17,7 +17,7 @@ public abstract class MixinGameRenderer {
 
     //TODO Map to renderWorld
     @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = "ldc=entities", shift = At.Shift.BEFORE), method = "renderCenter")
-    private void method_3178(float float_1, long long_1, CallbackInfo ci) {
+     private void renderCenter(float float_1, long long_1, CallbackInfo ci) {
         this.client.getProfiler().swap("textilelib_render_world");
         RenderWorldEvent renderWorldEvent = new RenderWorldEvent(this.client.worldRenderer, float_1);
         EventRegistry.INSTANCE.fireEvent(renderWorldEvent);

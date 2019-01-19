@@ -78,7 +78,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 artifacts {
     archives javadocJar
-	archives sourcesJar
+    archives sourcesJar
 }
 
 publishing {

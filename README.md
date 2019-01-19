@@ -7,13 +7,13 @@ Gradle Dependency:
 ```
 repositories {
     maven {
-        name = "JitPack"
-        url = "https://jitpack.io"
+        name = "NerdHub Maven"
+        url = "https://maven.abusedmaster.xyz"
     }
 }
 
 dependencies {
-    modCompile "com.github.NerdHubMC:TextileLib:master-SNAPSHOT"
+    modCompile "com.github.NerdHubMC:TextileLib:${textilelib_version}"
 }
 ```
 
@@ -29,10 +29,11 @@ Use `@EventSubscriber`on a method that will be called once an event is run
 Example:
 ```
 @EventSubscriber
-public void onEntitySpawned(EntitySpawnedEvent event) {
+public static void onEntitySpawned(EntitySpawnedEvent event) {
 	System.out.println(event.getEntity().getName() + " Has been spawned in the world!");
 }
 ```
+~*Note: all @EventSubscriber methods **must** be static!*
 
 **Method 2:**
 Create a method that takes in the event as a parameter. Then call that method using the example below

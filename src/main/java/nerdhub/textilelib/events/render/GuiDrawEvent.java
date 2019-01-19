@@ -1,12 +1,12 @@
 package nerdhub.textilelib.events.render;
 
-import nerdhub.textilelib.events.Event;
+import nerdhub.textilelib.events.CancelableEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Gui;
 
 @Environment(EnvType.CLIENT)
-public class GuiDrawEvent implements Event {
+public class GuiDrawEvent extends CancelableEvent {
 
     private Gui gui;
     private int mouseX, mouseY;

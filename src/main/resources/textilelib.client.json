@@ -6,7 +6,8 @@
     "MixinGameRenderer",
     "MixinMinecraftClient",
     "MixinClientPlayerInteractionManager",
-    "MixinGui"
+    "MixinGui",
+    "MixinContainerGui"
   ],
   "injectors": {
     "defaultRequire": 1

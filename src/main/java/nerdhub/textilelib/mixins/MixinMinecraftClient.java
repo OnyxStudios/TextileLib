@@ -20,7 +20,7 @@ public abstract class MixinMinecraftClient {
         PlayerSwingEvent playerLeftClick = new PlayerSwingEvent(client.player);
         if(attackCooldown <= 0) {
             if(client.hitResult != null) {
-                if(client.hitResult.type == HitResult.Type.NONE) {
+                if(client.hitResult.getType() == HitResult.Type.NONE) {
                     EventRegistry.INSTANCE.fireEvent(playerLeftClick);
                     if(playerLeftClick.isCanceled()) {
                         ci.cancel();

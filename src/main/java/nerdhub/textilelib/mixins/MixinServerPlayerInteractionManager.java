@@ -3,13 +3,13 @@ package nerdhub.textilelib.mixins;
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.block.BlockBreakEvent;
 import nerdhub.textilelib.events.entity.player.PlayerInteractBlockEvent;
-
 import net.minecraft.client.network.packet.BlockUpdateClientPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.*;
 import net.minecraft.util.*;
-import net.minecraft.util.math.*;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;

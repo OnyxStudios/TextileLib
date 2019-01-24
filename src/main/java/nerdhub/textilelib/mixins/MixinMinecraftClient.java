@@ -4,7 +4,7 @@ import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.entity.player.PlayerSwingEvent;
 import nerdhub.textilelib.events.tick.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.HitResult;
+import net.minecraft.util.hit.HitResult;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

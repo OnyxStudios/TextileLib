@@ -26,7 +26,7 @@ public abstract class MixinItemStack {
     private void useOnBlock(ItemUsageContext itemUsageContext_1, CallbackInfoReturnable<ActionResult> cir) {
         if(itemUsageContext_1.getItemStack().getItem() instanceof BlockItem) {
             World world = itemUsageContext_1.getWorld();
-            BlockPos pos = itemUsageContext_1.getPos();
+            BlockPos pos = itemUsageContext_1.getBlockPos();
             Direction facing = itemUsageContext_1.getFacing();
             ItemStack stack = itemUsageContext_1.getItemStack();
             PlayerEntity playerEntity = itemUsageContext_1.getPlayer();

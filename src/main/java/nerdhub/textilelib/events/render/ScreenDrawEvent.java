@@ -1,26 +1,25 @@
 package nerdhub.textilelib.events.render;
 
 import nerdhub.textilelib.events.Event;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.Gui;
+import net.fabricmc.api.*;
+import net.minecraft.client.gui.Screen;
 
 @Environment(EnvType.CLIENT)
-public class GuiDrawEvent implements Event {
+public class ScreenDrawEvent implements Event {
 
-    private Gui gui;
+    private Screen screen;
     private int mouseX, mouseY;
     private float partialTicks;
 
-    public GuiDrawEvent(Gui gui, int mouseX, int mouseY, float partialTicks) {
-        this.gui = gui;
+    public ScreenDrawEvent(Screen screen, int mouseX, int mouseY, float partialTicks) {
+        this.screen = screen;
         this.mouseX = mouseX;
         this.mouseY = mouseY;
         this.partialTicks = partialTicks;
     }
 
-    public Gui getGui() {
-        return gui;
+    public Screen getScreen() {
+        return screen;
     }
 
     public int getMouseX() {

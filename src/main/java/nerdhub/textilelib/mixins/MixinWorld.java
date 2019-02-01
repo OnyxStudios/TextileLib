@@ -20,13 +20,9 @@ public abstract class MixinWorld {
     @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)
     private void spawnEntity(Entity entity_1, CallbackInfoReturnable<Boolean> cir) {
         EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
-        boolean flag = entity_1.field_5983;
         int int_1 = MathHelper.floor(entity_1.x / 16.0D);
         int int_2 = MathHelper.floor(entity_1.z / 16.0D);
-        if(entity_1 instanceof PlayerEntity) {
-            flag = true;
-        }
-        if(flag && ((World) (Object) this).isChunkLoaded(int_1, int_2)) {
+        if((entity_1.teleporting || entity_1 instanceof PlayerEntity) && ((World) (Object) this).isChunkLoaded(int_1, int_2)) {
             EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
             if(entityAddedEvent.isCanceled()) {
                 cir.setReturnValue(false);

@@ -1,10 +1,17 @@
 package nerdhub.textilelib.eventhandlers;
 
-import com.google.common.collect.*;
-import nerdhub.textilelib.events.*;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+import nerdhub.textilelib.events.CancelableEvent;
+import nerdhub.textilelib.events.Event;
 
-import java.lang.invoke.*;
-import java.lang.reflect.*;
+import java.lang.invoke.LambdaConversionException;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.function.Consumer;
 
 public class EventRegistry {

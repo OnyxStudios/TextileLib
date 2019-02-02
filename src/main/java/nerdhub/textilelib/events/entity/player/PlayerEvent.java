@@ -14,5 +14,4 @@ public abstract class PlayerEvent extends CancelableEvent {
     public PlayerEntity getPlayer() {
         return player;
     }
-
 }

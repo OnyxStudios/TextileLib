@@ -5,8 +5,10 @@ import nerdhub.textilelib.events.entity.player.PlayerSwingEvent;
 import nerdhub.textilelib.events.tick.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.hit.HitResult;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftClient.class)

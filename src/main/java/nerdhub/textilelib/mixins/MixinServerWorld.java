@@ -3,37 +3,29 @@ package nerdhub.textilelib.mixins;
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.entity.EntitySpawnedEvent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.stream.Stream;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerWorld.class)
 public abstract class MixinServerWorld extends MixinWorld {
 
-    @Inject(method = "loadEntities", at = @At("HEAD"), cancellable = true)
-    protected void loadEntities(Stream<Entity> stream_1, CallbackInfo ci) {
-        stream_1.forEach((entity_1) -> {
-            if(this.method_14175(entity_1)) {
-                EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
-                EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
-                if(!entityAddedEvent.isCanceled()) {
-                    ((ServerWorld) (Object) this).entities.add(entity_1);
-                    this.onEntityAdded(entity_1);
-                }
+    @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)
+    private void spawnEntity(Entity entity_1, CallbackInfoReturnable<Boolean> cir) {
+        int int_1 = MathHelper.floor(entity_1.x / 16.0D);
+        int int_2 = MathHelper.floor(entity_1.z / 16.0D);
+        if(entity_1.teleporting || entity_1 instanceof PlayerEntity || ((World) (Object) this).isChunkLoaded(int_1, int_2)) {
+            EntitySpawnedEvent entityAddedEvent = new EntitySpawnedEvent(entity_1);
+            EventRegistry.INSTANCE.fireEvent(entityAddedEvent);
+            if(entityAddedEvent.isCanceled()) {
+                cir.setReturnValue(false);
+                cir.cancel();
             }
-        });
-        ci.cancel();
+        }
     }
-
-    //TODO map to canLoadEntity
-    @Shadow
-    abstract boolean method_14175(Entity entity_1);
-
-    @Shadow
-    protected abstract void onEntityAdded(Entity entity_1);
 }

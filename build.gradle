@@ -13,7 +13,7 @@ minecraft {
 }
 
 processResources {
-    // this will ensure that this task is redone when there's a change
+    // this will ensure that this task is re-run when there's a change
     inputs.property "version", project.version
 
     // replace stuff in fabric.mod.json, nothing else
@@ -28,9 +28,6 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'fabric.mod.json'
     }
-
-    //ATs
-    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 dependencies {

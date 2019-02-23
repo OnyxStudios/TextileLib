@@ -4,7 +4,7 @@ import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.block.BlockPlaceEvent;
 import nerdhub.textilelib.events.render.TooltipBuildEvent;
 import net.minecraft.block.Block;
-import net.minecraft.client.item.TooltipOptions;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -26,13 +26,13 @@ import java.util.List;
 public abstract class MixinItemStack {
 
     @Inject(method = "useOnBlock", at = @At("HEAD"), cancellable = true)
-    private void useOnBlock(ItemUsageContext itemUsageContext_1, CallbackInfoReturnable<ActionResult> cir) {
-        if(itemUsageContext_1.getItemStack().getItem() instanceof BlockItem) {
-            World world = itemUsageContext_1.getWorld();
-            BlockPos pos = itemUsageContext_1.getBlockPos();
-            Direction facing = itemUsageContext_1.getFacing();
-            ItemStack stack = itemUsageContext_1.getItemStack();
-            PlayerEntity playerEntity = itemUsageContext_1.getPlayer();
+    private void useOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+        if(context.getItemStack().getItem() instanceof BlockItem) {
+            World world = context.getWorld();
+            BlockPos pos = context.getBlockPos();
+            Direction facing = context.getFacing();
+            ItemStack stack = context.getItemStack();
+            PlayerEntity playerEntity = context.getPlayer();
             BlockPlaceEvent blockPlaceEvent = new BlockPlaceEvent(world, pos, Block.getBlockFromItem(stack.getItem()).getDefaultState(), playerEntity, world.getBlockState(pos.offset(facing)));
             EventRegistry.INSTANCE.fireEvent(blockPlaceEvent);
             if(blockPlaceEvent.isCanceled()) {
@@ -43,8 +43,8 @@ public abstract class MixinItemStack {
     }
 
     @Inject(method = "getTooltipText", at = @At("RETURN"))
-    private void getTooltipText(@Nullable PlayerEntity playerEntity_1, TooltipOptions tooltipOptions_1, CallbackInfoReturnable<List<TextComponent>> cir) {
-        TooltipBuildEvent tooltipBuildEvent = new TooltipBuildEvent((ItemStack) (Object) this, cir.getReturnValue(), tooltipOptions_1);
+    private void getTooltipText(@Nullable PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<TextComponent>> cir) {
+        TooltipBuildEvent tooltipBuildEvent = new TooltipBuildEvent((ItemStack) (Object) this, cir.getReturnValue(), context);
         EventRegistry.INSTANCE.fireEvent(tooltipBuildEvent);
     }
 }

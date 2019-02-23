@@ -7,7 +7,6 @@
     "MixinServerPlayerInteractionManager",
     "MixinItemStack",
     "MixinServerWorld",
-    "MixinWorld",
     "MixinPlayerEntity",
     "MixinMinecraftServer",
     "MixinEntity",

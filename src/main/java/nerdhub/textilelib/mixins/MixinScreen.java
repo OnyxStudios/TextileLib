@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinScreen {
 
     @Inject(method = "draw", at = @At("RETURN"))
-    private void draw(int int_1, int int_2, float float_1, CallbackInfo ci) {
-        ScreenDrawEvent guiDrawEvent = new ScreenDrawEvent((Screen) (Object) this, int_1, int_1, float_1);
+    private void draw(int mouseX, int mouseY, float deltaTime, CallbackInfo ci) {
+        ScreenDrawEvent guiDrawEvent = new ScreenDrawEvent((Screen) (Object) this, mouseX, mouseY, deltaTime);
         EventRegistry.INSTANCE.fireEvent(guiDrawEvent);
     }
 }

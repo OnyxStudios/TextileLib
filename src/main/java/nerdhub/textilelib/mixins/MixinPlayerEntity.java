@@ -17,11 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinPlayerEntity {
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    private void interact(Entity entity_1, Hand hand_1, CallbackInfoReturnable<ActionResult> cir) {
-        PlayerInteractEntityEvent playerInteractEntity = new PlayerInteractEntityEvent((PlayerEntity) (Object) this, hand_1, entity_1);
+    private void interact(Entity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        PlayerInteractEntityEvent playerInteractEntity = new PlayerInteractEntityEvent((PlayerEntity) (Object) this, hand, entity);
         EventRegistry.INSTANCE.fireEvent(playerInteractEntity);
         if(playerInteractEntity.isCanceled()) {
-            cir.setReturnValue(ActionResult.FAILURE);
+            cir.setReturnValue(ActionResult.FAIL);
             cir.cancel();
         }
     }

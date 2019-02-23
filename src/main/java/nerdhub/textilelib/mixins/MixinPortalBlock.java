@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PortalBlock.class)
 public abstract class MixinPortalBlock {
 
+    //FIXME this does technically work, but fires way too often
     //TODO map this to attemptPortalSpawn
     @Inject(method = "method_10352", at = @At("HEAD"), cancellable = true)
-    private void method_10352(IWorld iWorld_1, BlockPos blockPos_1, CallbackInfoReturnable<Boolean> cir) {
-        SpawnPortalEvent spawnPortalEvent = new SpawnPortalEvent(iWorld_1.getWorld(), blockPos_1, iWorld_1.getBlockState(blockPos_1));
+    private void method_10352(IWorld world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        SpawnPortalEvent spawnPortalEvent = new SpawnPortalEvent(world.getWorld(), pos, world.getBlockState(pos));
         EventRegistry.INSTANCE.fireEvent(spawnPortalEvent);
         if(spawnPortalEvent.isCanceled()) {
             cir.setReturnValue(false);
-            cir.cancel();
         }
     }
 }

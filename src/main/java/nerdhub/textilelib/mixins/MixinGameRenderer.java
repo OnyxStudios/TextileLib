@@ -18,7 +18,6 @@ public abstract class MixinGameRenderer {
     @Final
     private MinecraftClient client;
 
-    //TODO Map to renderWorld
     @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = "ldc=entities", shift = At.Shift.BEFORE), method = "renderCenter")
     private void renderCenter(float float_1, long long_1, CallbackInfo ci) {
         this.client.getProfiler().swap("textilelib_render_world");

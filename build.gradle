@@ -91,7 +91,7 @@ publishing {
             artifact(sourcesJar) {
                 builtBy remapSourcesJar
             }
-            artifactjavadocJar
+            artifact javadocJar
             pom {
                 name = "TextileLib"
                 url = "https://github.com/NerdHubMC/TextileLib"

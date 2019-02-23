@@ -7,7 +7,7 @@ sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.NerdHubMC"
 archivesBaseName = "TextileLib"
-version = "${mod_version}"
+version = project.mod_version
 
 minecraft {
 }
@@ -57,7 +57,7 @@ jar {
             "Implementation-Title": project.name,
             "Implementation-Version": project.version,
             "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}".toLowerCase(Locale.ROOT),
-            "Built-On-Minecraft": "${mc_version}",
+            "Built-On-Minecraft": project.minecraft_version,
             "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
     )
 }
@@ -74,16 +74,24 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
-    archives javadocJar
-    archives sourcesJar
+    archives(jar) {
+        builtBy remapJar
+    }
+    archives(sourcesJar) {
+        builtBy remapSourcesJar
+    }
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
-            artifact javadocJar
-            artifact sourcesJar
+            artifact(jar) {
+                builtBy remapJar
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+            artifactjavadocJar
             pom {
                 name = "TextileLib"
                 url = "https://github.com/NerdHubMC/TextileLib"
@@ -126,4 +134,3 @@ publishing {
     }
 }
 tasks.build.dependsOn javadocJar
-tasks.publish.dependsOn build

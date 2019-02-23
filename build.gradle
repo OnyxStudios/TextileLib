@@ -80,6 +80,7 @@ artifacts {
     archives(sourcesJar) {
         builtBy remapSourcesJar
     }
+    archives javadocJar
 }
 
 publishing {

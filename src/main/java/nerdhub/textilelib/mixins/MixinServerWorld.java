@@ -3,7 +3,6 @@ package nerdhub.textilelib.mixins;
 import nerdhub.textilelib.eventhandlers.EventRegistry;
 import nerdhub.textilelib.events.entity.EntitySpawnedEvent;
 import nerdhub.textilelib.events.tick.WorldTickEvent;
-import net.fabricmc.fabric.mixin.events.tick.MixinWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -18,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.BooleanSupplier;
 
 @Mixin(ServerWorld.class)
-public abstract class MixinServerWorld extends MixinWorld {
+public abstract class MixinServerWorld {
 
     @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)
     private void spawnEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {

@@ -8,14 +8,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(PortalBlock.class)
 public abstract class MixinPortalBlock {
 
-    //FIXME this does technically work, but fires way too often
-    @Inject(method = "method_10352", at = @At("HEAD"), cancellable = true)
-    private void method_10352(IWorld world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if(PortalCreationCallback.EVENT.invoker().tryCreatePortal(world, pos, world.getBlockState(pos))) {
+    @Inject(method = "method_10352", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/PortalBlock$class_2424;method_10363()V", shift = At.Shift.BEFORE), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    private void createPortal(IWorld world, BlockPos pos, CallbackInfoReturnable<Boolean> cir, PortalBlock.class_2424 placeHandler) {
+        if(PortalCreationCallback.EVENT.invoker().tryCreatePortal(world, pos, world.getBlockState(pos), placeHandler)) {
             cir.setReturnValue(false);
         }
     }

@@ -4,14 +4,11 @@
   "description": "Adding more events into the game",
   "version": "${version}",
   "side": "universal",
-  "initializers": [
-    "nerdhub.textilelib.TextileLib"
-  ],
   "requires": {
     "fabric": "*"
   },
   "mixins": {
-    "client": "textilelib.client.json",
-    "common": "textilelib.common.json"
+    "client": "mixins.textilelib.client.json",
+    "common": "mixins.textilelib.common.json"
   }
 }

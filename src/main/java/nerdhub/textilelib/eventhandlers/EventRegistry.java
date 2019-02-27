@@ -2,8 +2,6 @@ package nerdhub.textilelib.eventhandlers;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import nerdhub.textilelib.events.CancelableEvent;
-import nerdhub.textilelib.events.Event;
 
 import java.lang.invoke.LambdaConversionException;
 import java.lang.invoke.LambdaMetafactory;
@@ -77,13 +75,13 @@ public class EventRegistry {
         }
     }
 
-    public <E extends Event> void registerEventHandler(Class<E> eventClass, Consumer<E> handler) {
+    public <E> void registerEventHandler(Class<E> eventClass, Consumer<E> handler) {
         synchronized (classLambdaMultimap) {
             classLambdaMultimap.put(eventClass, handler);
         }
     }
 
-    public <T extends Event> void fireEvent(T event) {
+    public <T> void fireEvent(T event) {
         for (Consumer<? extends Event> consumer : classLambdaMultimap.get(event.getClass())) {
             ((Consumer<T>) consumer).accept(event);
         }

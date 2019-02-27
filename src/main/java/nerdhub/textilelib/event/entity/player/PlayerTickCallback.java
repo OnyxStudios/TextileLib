@@ -12,5 +12,8 @@ public interface PlayerTickCallback {
         }
     });
 
+    /**
+     * fired before player update logic runs
+     */
     void tick(PlayerEntity player);
 }

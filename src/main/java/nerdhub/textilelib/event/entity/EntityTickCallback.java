@@ -12,5 +12,8 @@ public interface EntityTickCallback {
         }
     });
 
+    /**
+     * fired before any entity update logic runs
+     */
     void tick(Entity entity);
 }

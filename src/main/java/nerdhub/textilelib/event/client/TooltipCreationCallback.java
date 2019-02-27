@@ -20,5 +20,10 @@ public interface TooltipCreationCallback {
         }
     });
 
+    /**
+     * fired to build a stack's tooltip, before it is rendered
+     *
+     * @param tooltip the list that contains the tooltip
+     */
     void buildTooltip(ItemStack stack, TooltipContext context, List<TextComponent> tooltip);
 }

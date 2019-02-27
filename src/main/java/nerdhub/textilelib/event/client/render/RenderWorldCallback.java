@@ -16,7 +16,7 @@ public interface RenderWorldCallback {
     });
 
     /**
-     * fired as a psot render hook after after the world is rendered, but before any GUI is.
+     * fired as a post render hook after after the world is rendered, but before any GUI is.
      */
     void render(WorldRenderer worldRenderer, float deltaTime);
 }

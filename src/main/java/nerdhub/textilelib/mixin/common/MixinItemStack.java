@@ -1,6 +1,6 @@
 package nerdhub.textilelib.mixin.common;
 
-import nerdhub.textilelib.event.client.TooltipCreationCallback;
+import nerdhub.textilelib.event.client.render.tooltip.TooltipCreationCallback;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

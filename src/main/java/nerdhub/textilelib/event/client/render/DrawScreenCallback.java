@@ -16,7 +16,7 @@ public interface DrawScreenCallback {
     });
 
     /**
-     * called after the current {@link Screen} is drawn, to allwo for rendering additional elements
+     * called after the current {@link Screen} is drawn, to allow for rendering additional elements
      */
     void drawScreen(Screen screen, int mouseX, int mouseY, float deltaTime);
 }

@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
@@ -20,14 +21,10 @@ public class MixinScreen {
         DrawScreenCallback.EVENT.invoker().drawScreen((Screen) (Object) this, mouseX, mouseY, deltaTime);
     }
 
-    @Inject(method = "drawStackTooltip", at = @At("HEAD"))
-    private void drawStackTooltip(ItemStack stack, int mouseX, int mouseY, CallbackInfo ci) {
-        List<String> tooltipList = ((Screen) (Object) this).getStackTooltip(stack);
-        if(DrawStackTooltipCallback.EVENT.invoker().drawTooltip(stack, tooltipList, mouseX, mouseY)) {
-            ((Screen) (Object) this).drawTooltip(tooltipList, mouseX, mouseY);
+    @Inject(method = "drawStackTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Screen;getStackTooltip(Lnet/minecraft/item/ItemStack;)Ljava/util/List;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+    private void drawStackTooltip(ItemStack stack, int mouseX, int mouseY, CallbackInfo ci, List<String> tooltipList) {
+        if(!DrawStackTooltipCallback.EVENT.invoker().drawTooltip(stack, tooltipList, mouseX, mouseY)) {
+            ci.cancel();
         }
-
-        //Always cancel so only our drawTooltip runs, so if anyone decides to modify the tooltip list it will reflect it
-        ci.cancel();
     }
 }

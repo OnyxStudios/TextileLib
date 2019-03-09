@@ -1,8 +1,10 @@
 package nerdhub.textilelib.mixin.common;
 
 import nerdhub.textilelib.event.entity.EntitySpawnCallback;
+import nerdhub.textilelib.event.entity.player.PlayerJoinCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -13,6 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerWorld.class)
 public abstract class MixinServerWorld {
+
+    @Inject(method = "method_18771", at = @At("RETURN"))
+    private void method_18771(ServerPlayerEntity serverPlayerEntity) {
+        PlayerJoinCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.world, serverPlayerEntity, serverPlayerEntity.getPos());
+    }
 
     @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)
     private void spawnEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {

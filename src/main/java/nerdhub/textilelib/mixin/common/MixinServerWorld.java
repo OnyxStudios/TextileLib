@@ -11,13 +11,14 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerWorld.class)
 public abstract class MixinServerWorld {
 
     @Inject(method = "method_18771", at = @At("RETURN"))
-    private void method_18771(ServerPlayerEntity serverPlayerEntity) {
+    private void method_18771(ServerPlayerEntity serverPlayerEntity, CallbackInfo ci) {
         PlayerJoinCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.getServerWorld(), serverPlayerEntity);
     }
 

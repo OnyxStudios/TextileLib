@@ -5,7 +5,6 @@
     "mixins": [
         "MixinBlock",
         "MixinEntity",
-        "MixinItemStack",
         "MixinPlayerEntity",
         "MixinPortalBlock",
         "MixinServerPlayerInteractionManager",

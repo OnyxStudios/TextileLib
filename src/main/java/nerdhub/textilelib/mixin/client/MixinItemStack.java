@@ -1,6 +1,6 @@
-package nerdhub.textilelib.mixin.common;
+package nerdhub.textilelib.mixin.client;
 
-import nerdhub.textilelib.event.client.TooltipCreationCallback;
+import nerdhub.textilelib.event.client.render.tooltip.TooltipCreationCallback;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Mixin(ItemStack.class)
-public abstract class MixinItemStack {
+public class MixinItemStack {
 
     @Inject(method = "getTooltipText", at = @At("RETURN"))
     private void getTooltipText(@Nullable PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<TextComponent>> cir) {

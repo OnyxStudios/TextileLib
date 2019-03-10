@@ -1,4 +1,4 @@
-package nerdhub.textilelib.event.client;
+package nerdhub.textilelib.event.client.render.tooltip;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

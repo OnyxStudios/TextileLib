@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Mixin(ItemStack.class)
-public class MixinClientItemStack {
+public class MixinItemStack {
 
     @Inject(method = "getTooltipText", at = @At("RETURN"))
     private void getTooltipText(@Nullable PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<TextComponent>> cir) {

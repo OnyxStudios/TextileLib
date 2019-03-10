@@ -20,9 +20,9 @@ public interface PlayerDeathCallback {
 
     /**
      * Fired when a player dies
-     * @param world - ServerWorld parameter
+     * @param world - The world
      * @param player - The player who died
-     * @param damageSource - The damagesource
+     * @param damageSource - The source of damage
      * @return {@code false} to cancel the event
      */
     boolean onPlayerDeath(ServerWorld world, ServerPlayerEntity player, DamageSource damageSource);

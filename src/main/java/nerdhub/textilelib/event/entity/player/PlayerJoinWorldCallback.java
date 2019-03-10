@@ -5,10 +5,10 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
-public interface PlayerJoinCallback {
+public interface PlayerJoinWorldCallback {
 
-    Event<PlayerJoinCallback> EVENT = EventFactory.createArrayBacked(PlayerJoinCallback.class, listeners -> (world, player) -> {
-        for (PlayerJoinCallback callback : listeners) {
+    Event<PlayerJoinWorldCallback> EVENT = EventFactory.createArrayBacked(PlayerJoinWorldCallback.class, listeners -> (world, player) -> {
+        for (PlayerJoinWorldCallback callback : listeners) {
             callback.onPlayerJoin(world, player);
         }
     });

@@ -1,7 +1,7 @@
 package nerdhub.textilelib.mixin.common;
 
 import nerdhub.textilelib.event.entity.EntitySpawnCallback;
-import nerdhub.textilelib.event.entity.player.PlayerJoinCallback;
+import nerdhub.textilelib.event.entity.player.PlayerJoinWorldCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -19,7 +19,7 @@ public abstract class MixinServerWorld {
 
     @Inject(method = "method_18771", at = @At("RETURN"))
     private void method_18771(ServerPlayerEntity serverPlayerEntity, CallbackInfo ci) {
-        PlayerJoinCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.getServerWorld(), serverPlayerEntity);
+        PlayerJoinWorldCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.getServerWorld(), serverPlayerEntity);
     }
 
     @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)

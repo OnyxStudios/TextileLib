@@ -18,7 +18,7 @@ public abstract class MixinServerWorld {
 
     @Inject(method = "method_18771", at = @At("RETURN"))
     private void method_18771(ServerPlayerEntity serverPlayerEntity) {
-        PlayerJoinCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.world, serverPlayerEntity, serverPlayerEntity.getPos());
+        PlayerJoinCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.getServerWorld(), serverPlayerEntity);
     }
 
     @Inject(method = "spawnEntity", at = @At("HEAD"), cancellable = true)

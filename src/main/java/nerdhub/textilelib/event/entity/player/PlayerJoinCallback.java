@@ -2,20 +2,19 @@ package nerdhub.textilelib.event.entity.player;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 
 public interface PlayerJoinCallback {
 
-    Event<PlayerJoinCallback> EVENT = EventFactory.createArrayBacked(PlayerJoinCallback.class, listeners -> (world, player, pos) -> {
+    Event<PlayerJoinCallback> EVENT = EventFactory.createArrayBacked(PlayerJoinCallback.class, listeners -> (world, player) -> {
         for (PlayerJoinCallback callback : listeners) {
-            callback.onPlayerJoin(world, player, pos);
+            callback.onPlayerJoin(world, player);
         }
     });
 
     /**
      * Fired when a player joins a world
      */
-    void onPlayerJoin(World world, PlayerEntity player, BlockPos pos);
+    void onPlayerJoin(ServerWorld world, ServerPlayerEntity player);
 }

@@ -10,7 +10,7 @@
         "MixinPortalBlock",
         "MixinServerPlayerInteractionManager",
         "MixinServerWorld",
-        "ServerPlayerEntity"
+        "MixinServerPlayerEntity"
     ],
     "injectors": {
         "defaultRequire": 1

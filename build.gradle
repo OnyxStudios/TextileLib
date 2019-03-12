@@ -57,26 +57,9 @@ dependencies {
     compileOnly "com.google.code.findbugs:jsr305:${findbugs_version}"
 }
 
-artifacts {
-    archives(jar) {
-        builtBy remapJar
-    }
-    archives(sourcesJar) {
-        builtBy remapSourcesJar
-    }
-    archives javadocJar
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact(jar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-            artifact javadocJar
             pom {
                 name = "TextileLib"
                 url = "https://github.com/NerdHubMC/TextileLib"

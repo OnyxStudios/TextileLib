@@ -8,7 +8,7 @@ sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.NerdHubMC"
 archivesBaseName = "TextileLib"
-version = project.mod_version
+version = System.getenv("TRAVIS_TAG") ?: project.mod_version
 
 apply from: "https://raw.githubusercontent.com/NerdHubMC/Gradle-Scripts/master/scripts/fabric/basic_project.gradle"
 

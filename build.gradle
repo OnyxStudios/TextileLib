@@ -1,6 +1,6 @@
 plugins {
     id 'fabric-loom' version '0.2.0-SNAPSHOT'
-    id "com.matthewprenger.cursegradle" version "1.1.2"
+    id "com.matthewprenger.cursegradle" version "1.2.0"
     id 'maven-publish'
 }
 
@@ -13,6 +13,17 @@ version = project.mod_version
 apply from: "https://raw.githubusercontent.com/NerdHubMC/Gradle-Scripts/master/scripts/fabric/basic_project.gradle"
 
 minecraft {
+}
+
+//curseforge relations, used by the cf publishing script
+if(project.hasProperty("curseforge_id")) {
+    curseforge.curseProjects.each {
+        if(it.id == project.findProject("curseforge_id")) {
+            it.relations {
+                requiredDependency "fabric"
+            }
+        }
+    }
 }
 
 processResources {

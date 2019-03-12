@@ -1,5 +1,6 @@
 plugins {
     id 'fabric-loom' version '0.2.0-SNAPSHOT'
+    id "com.matthewprenger.cursegradle" version "1.2.0"
     id 'maven-publish'
 }
 
@@ -9,7 +10,20 @@ group = "com.github.NerdHubMC"
 archivesBaseName = "TextileLib"
 version = project.mod_version
 
+apply from: "https://raw.githubusercontent.com/NerdHubMC/Gradle-Scripts/master/scripts/fabric/basic_project.gradle"
+
 minecraft {
+}
+
+//curseforge relations, used by the cf publishing script
+if(project.hasProperty("curseforge_id")) {
+    curseforge.curseProjects.each {
+        if(it.id == project.findProject("curseforge_id")) {
+            it.relations {
+                requiredDependency "fabric"
+            }
+        }
+    }
 }
 
 processResources {
@@ -22,6 +36,10 @@ processResources {
 
         // add mod metadata
         expand 'version': project.version
+
+        filter { String line ->
+            line.replace("\"fabric\": \"*\"", "\"fabric\": \"[${project.fabric_version},)\"")
+        }
     }
 
     // copy everything else, thats not the mcmod.info
@@ -37,40 +55,6 @@ dependencies {
 
     modCompile "net.fabricmc:fabric:${fabric_version}"
     compileOnly "com.google.code.findbugs:jsr305:${findbugs_version}"
-}
-
-compileJava {
-    options.encoding = 'UTF-8'
-}
-
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-        tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-        }
-    }
-}
-
-jar {
-    from "LICENSE.md"
-    manifest.mainAttributes(
-            "Implementation-Title": project.name,
-            "Implementation-Version": project.version,
-            "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}".toLowerCase(Locale.ROOT),
-            "Built-On-Minecraft": project.minecraft_version,
-            "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
-    )
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
-    from "LICENSE.md"
-    classifier = 'javadoc'
 }
 
 artifacts {
@@ -114,24 +98,4 @@ publishing {
             }
         }
     }
-
-    repositories {
-        //mavenLocal() //uncomment this to publish to the local maven
-
-        //publish to the nerdhub maven if credentials are set
-        if (project.hasProperty("nerdhub_maven_user")) {
-            maven {
-                name = "NerdHub"
-                url = findProperty("nerdhub_maven_url")
-                credentials {
-                    username = findProperty("nerdhub_maven_user")
-                    password = findProperty("nerdhub_maven_pass")
-                }
-                authentication {
-                    basic(BasicAuthentication)
-                }
-            }
-        }
-    }
 }
-tasks.build.dependsOn javadocJar

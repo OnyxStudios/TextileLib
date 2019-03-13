@@ -6,7 +6,7 @@ import net.minecraft.client.render.GameRenderer;
 import nerdhub.textilelib.event.client.render.DrawScreenCallback;
 import nerdhub.textilelib.event.client.render.RenderWorldCallback;
 import nerdhub.textilelib.event.client.render.hud.DrawHudCallback;
-import nerdhub.textilelib.event.client.render.hud.VanillaHudTypes;
+import nerdhub.textilelib.event.client.render.hud.HudTypes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,20 +23,23 @@ public abstract class MixinGameRenderer {
 
     @Inject(at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = "ldc=entities", shift = At.Shift.BEFORE), method = "renderCenter")
     private void renderCenter(float deltaTime, long long_1, CallbackInfo ci) {
-        this.client.getProfiler().swap("textilelib_render_world");
+        this.client.getProfiler().push("textilelib:renderWorld");
         RenderWorldCallback.EVENT.invoker().render(this.client.worldRenderer, deltaTime);
+        this.client.getProfiler().pop();
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Screen;draw(IIF)V", shift = At.Shift.AFTER), method = "render")
     private void renderScreen(float deltaTime, long long_1, boolean boolean_1, CallbackInfo ci) {
-        this.client.getProfiler().swap("textilelib_render_screen");
+        this.client.getProfiler().push("textilelib:renderScreen");
         DrawScreenCallback.EVENT.invoker().drawScreen(this.client.currentScreen, this.getMouseX(), this.getMouseY(), deltaTime);
+        this.client.getProfiler().pop();
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;draw(F)V", shift = At.Shift.AFTER), method = "render")
     private void renderInGameHud(float deltaTime, long long_1, boolean boolean_1, CallbackInfo ci) {
-        this.client.getProfiler().swap("textilelib_render_hud_ingame");
-        DrawHudCallback.EVENT.invoker().drawHud(VanillaHudTypes.INGAME, this.client.inGameHud, this.getMouseX(), this.getMouseY(), deltaTime);
+        this.client.getProfiler().push("textilelib:renderHudIngame");
+        DrawHudCallback.EVENT.invoker().drawHud(HudTypes.INGAME, this.client.inGameHud, this.getMouseX(), this.getMouseY(), deltaTime);
+        this.client.getProfiler().pop();
     }
 
     private int getMouseX() {

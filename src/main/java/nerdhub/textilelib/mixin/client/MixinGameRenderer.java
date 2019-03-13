@@ -1,8 +1,12 @@
 package nerdhub.textilelib.mixin.client;
 
-import nerdhub.textilelib.event.client.render.RenderWorldCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+
+import nerdhub.textilelib.event.client.render.DrawScreenCallback;
+import nerdhub.textilelib.event.client.render.RenderWorldCallback;
+import nerdhub.textilelib.event.client.render.hud.DrawHudCallback;
+import nerdhub.textilelib.event.client.render.hud.VanillaHudTypes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,5 +25,25 @@ public abstract class MixinGameRenderer {
     private void renderCenter(float deltaTime, long long_1, CallbackInfo ci) {
         this.client.getProfiler().swap("textilelib_render_world");
         RenderWorldCallback.EVENT.invoker().render(this.client.worldRenderer, deltaTime);
+    }
+
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Screen;draw(IIF)V", shift = At.Shift.AFTER), method = "render")
+    private void renderScreen(float deltaTime, long long_1, boolean boolean_1, CallbackInfo ci) {
+        this.client.getProfiler().swap("textilelib_render_screen");
+        DrawScreenCallback.EVENT.invoker().drawScreen(this.client.currentScreen, this.getMouseX(), this.getMouseY(), deltaTime);
+    }
+
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;draw(F)V", shift = At.Shift.AFTER), method = "render")
+    private void renderInGameHud(float deltaTime, long long_1, boolean boolean_1, CallbackInfo ci) {
+        this.client.getProfiler().swap("textilelib_render_hud_ingame");
+        DrawHudCallback.EVENT.invoker().drawHud(VanillaHudTypes.INGAME, this.client.inGameHud, this.getMouseX(), this.getMouseY(), deltaTime);
+    }
+
+    private int getMouseX() {
+        return (int) (this.client.mouse.getX() * (double) this.client.window.getScaledWidth() / (double) this.client.window.getWidth());
+    }
+
+    private int getMouseY() {
+        return (int) (this.client.mouse.getY() * (double) this.client.window.getScaledHeight() / (double) this.client.window.getHeight());
     }
 }

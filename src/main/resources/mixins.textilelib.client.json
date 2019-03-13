@@ -3,10 +3,12 @@
     "package": "nerdhub.textilelib.mixin.client",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
+        "MixinDebugHud",
         "MixinGameRenderer",
+        "MixinInGameHud",
+        "MixinItemStack",
         "MixinMinecraftClient",
-        "MixinScreen",
-        "MixinItemStack"
+        "MixinScreen"
     ],
     "injectors": {
         "defaultRequire": 1

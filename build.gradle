@@ -42,7 +42,7 @@ processResources {
         }
     }
 
-    // copy everything else, thats not the mcmod.info
+    // copy everything else, thats not the fabric.mod.json
     from(sourceSets.main.resources.srcDirs) {
         exclude 'fabric.mod.json'
     }

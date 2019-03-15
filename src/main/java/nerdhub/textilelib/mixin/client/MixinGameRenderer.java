@@ -1,6 +1,7 @@
 package nerdhub.textilelib.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 
 import nerdhub.textilelib.event.client.render.DrawScreenCallback;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
@@ -35,10 +37,15 @@ public abstract class MixinGameRenderer {
         this.client.getProfiler().pop();
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;draw(F)V", shift = At.Shift.AFTER), method = "render")
-    private void renderInGameHud(float deltaTime, long long_1, boolean boolean_1, CallbackInfo ci) {
-        this.client.getProfiler().push("textilelib:renderHudIngame");
-        DrawHudCallback.EVENT.invoker().drawHud(HudTypes.INGAME, this.client.inGameHud, this.getMouseX(), this.getMouseY(), deltaTime);
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;draw(F)V"), method = "render")
+    private void renderInGameHud(InGameHud hud, float deltaTime) {
+        this.client.getProfiler().push("textilelib:renderHudIngameBefore");
+        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.INGAME, hud, deltaTime)) {
+            this.client.getProfiler().swap("textilelib:renderHudIngameDraw");
+            hud.draw(deltaTime);
+            this.client.getProfiler().swap("textilelib:renderHudIngameAfter");
+            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.INGAME, hud, deltaTime);
+        }
         this.client.getProfiler().pop();
     }
 

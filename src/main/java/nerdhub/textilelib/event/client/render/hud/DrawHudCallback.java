@@ -10,14 +10,28 @@ import net.fabricmc.fabric.api.event.EventFactory;
 @Environment(EnvType.CLIENT)
 public interface DrawHudCallback {
 
-    Event<DrawHudCallback> EVENT = EventFactory.createArrayBacked(DrawHudCallback.class, listeners -> (type, hud, mouseX, mouseY, deltaTime) -> {
+    Event<DrawHudCallback> EVENT_BEFORE = EventFactory.createArrayBacked(DrawHudCallback.class, listeners -> (type, hud, deltaTime) -> {
         for (DrawHudCallback callback : listeners) {
-            callback.drawHud(type, hud, mouseX, mouseY, deltaTime);
+            if (!callback.drawHud(type, hud, deltaTime)) {
+                return false;
+            }
         }
+        return true;
+    });
+
+    Event<DrawHudCallback> EVENT_AFTER = EventFactory.createArrayBacked(DrawHudCallback.class, listeners -> (type, hud, deltaTime) -> {
+        for (DrawHudCallback callback : listeners) {
+            if (!callback.drawHud(type, hud, deltaTime)) {
+                return false;
+            }
+        }
+        return true;
     });
 
     /**
-     * Called after the {@link DrawableHelper} is drawn, to allow for rendering additional elements
+     * Called before and after the {@link DrawableHelper} is drawn, to allow for rendering additional elements
+     *
+     * @return True to continue drawing, False to finish/cancel drawing
      */
-    void drawHud(IHudType type, DrawableHelper hud, int mouseX, int mouseY, float deltaTime);
+    boolean drawHud(IHudType type, DrawableHelper hud, float deltaTime);
 }

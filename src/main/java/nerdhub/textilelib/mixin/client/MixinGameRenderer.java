@@ -40,11 +40,11 @@ public abstract class MixinGameRenderer {
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;draw(F)V"), method = "render")
     private void renderInGameHud(InGameHud hud, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudIngameBefore");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.INGAME, hud, deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.INGAME, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudIngameDraw");
             hud.draw(deltaTime);
             this.client.getProfiler().swap("textilelib:renderHudIngameAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.INGAME, hud, deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.INGAME, hud, deltaTime);
         }
         this.client.getProfiler().pop();
     }

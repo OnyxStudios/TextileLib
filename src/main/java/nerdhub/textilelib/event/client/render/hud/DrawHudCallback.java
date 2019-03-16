@@ -10,28 +10,36 @@ import net.fabricmc.fabric.api.event.EventFactory;
 @Environment(EnvType.CLIENT)
 public interface DrawHudCallback {
 
-    Event<DrawHudCallback> EVENT_BEFORE = EventFactory.createArrayBacked(DrawHudCallback.class, listeners -> (type, hud, deltaTime) -> {
-        for (DrawHudCallback callback : listeners) {
-            if (!callback.drawHud(type, hud, deltaTime)) {
-                return false;
-            }
-        }
-        return true;
-    });
+    interface Pre extends DrawHudCallback {
 
-    Event<DrawHudCallback> EVENT_AFTER = EventFactory.createArrayBacked(DrawHudCallback.class, listeners -> (type, hud, deltaTime) -> {
-        for (DrawHudCallback callback : listeners) {
-            if (!callback.drawHud(type, hud, deltaTime)) {
-                return false;
+        Event<Pre> EVENT = EventFactory.createArrayBacked(Pre.class, listeners -> (type, hud, deltaTime) -> {
+            for (Pre callback : listeners) {
+                if (!callback.drawHud(type, hud, deltaTime)) {
+                    return false;
+                }
             }
-        }
-        return true;
-    });
+            return true;
+        });
 
-    /**
-     * Called before and after the {@link DrawableHelper} is drawn, to allow for rendering additional elements
-     *
-     * @return True to continue drawing, False to finish/cancel drawing
-     */
-    boolean drawHud(IHudType type, DrawableHelper hud, float deltaTime);
+        /**
+         * Called before the {@link DrawableHelper} is drawn, to allow for rendering additional elements
+         *
+         * @return True to continue drawing, False to finish/cancel drawing
+         */
+        boolean drawHud(IHudType type, DrawableHelper hud, float deltaTime);
+    }
+
+    interface Post extends DrawHudCallback {
+
+        Event<Post> EVENT = EventFactory.createArrayBacked(Post.class, listeners -> (type, hud, deltaTime) -> {
+            for (Post callback : listeners) {
+                callback.drawHud(type, hud, deltaTime);
+            }
+        });
+
+        /**
+         * Called after the {@link DrawableHelper} is drawn, to allow for rendering additional elements
+         */
+        void drawHud(IHudType type, DrawableHelper hud, float deltaTime);
+    }
 }

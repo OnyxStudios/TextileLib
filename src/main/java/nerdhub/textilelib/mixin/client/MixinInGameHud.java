@@ -26,11 +26,11 @@ public abstract class MixinInGameHud {
     private void drawSpectatorHud(SpectatorHud hud, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudSpectator");
         this.client.getProfiler().push("textilelib:renderHudSpectatorBefore");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.SPECTATOR, hud, deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.SPECTATOR, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudSpectatorDraw");
             hud.draw(deltaTime);
             this.client.getProfiler().swap("textilelib:renderHudSpectatorAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.SPECTATOR, hud, deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.SPECTATOR, hud, deltaTime);
         }
         this.client.getProfiler().pop();
         this.client.getProfiler().pop();
@@ -39,11 +39,11 @@ public abstract class MixinInGameHud {
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/BossBarHud;draw()V"), method = "draw")
     private void drawBossBarHud(BossBarHud hud, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudBossbarBefore");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.BOSSBAR, hud, deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.BOSSBAR, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudBossbarDraw");
             hud.draw();
             this.client.getProfiler().swap("textilelib:renderHudBossbarAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.BOSSBAR, hud, deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.BOSSBAR, hud, deltaTime);
         }
         this.client.getProfiler().pop();
     }
@@ -52,11 +52,11 @@ public abstract class MixinInGameHud {
     private void drawDebugHud(DebugHud hud, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudDebug");
         this.client.getProfiler().push("textilelib:renderHudDebugBefore");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.DEBUG, hud, deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.DEBUG, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudDebugDraw");
             hud.draw();
             this.client.getProfiler().swap("textilelib:renderHudDebugAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.DEBUG, hud, deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.DEBUG, hud, deltaTime);
         }
         this.client.getProfiler().pop();
         this.client.getProfiler().pop();
@@ -66,11 +66,11 @@ public abstract class MixinInGameHud {
     private void drawSubtitlesHud(SubtitlesHud hud, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudSubtitles");
         this.client.getProfiler().push("textilelib:renderHudSubtitlesBefore");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.SUBTITLES, hud, deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.SUBTITLES, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudSubtitlesDraw");
             hud.draw();
             this.client.getProfiler().swap("textilelib:renderHudSubtitlesAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.SUBTITLES, hud, deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.SUBTITLES, hud, deltaTime);
         }
         this.client.getProfiler().pop();
         this.client.getProfiler().pop();
@@ -80,11 +80,11 @@ public abstract class MixinInGameHud {
     private void drawScoreboardHud(InGameHud hud, ScoreboardObjective scoreboardObjective, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudScoreboard");
         this.client.getProfiler().push("textilelib:renderHudScoreboardBefore");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.SCOREBOARD, hud.getScoreboardWidget(), deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.SCOREBOARD, hud.getScoreboardWidget(), deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudScoreboardDraw");
             this.renderScoreboardSidebar(scoreboardObjective);
             this.client.getProfiler().swap("textilelib:renderHudScoreboardAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.SCOREBOARD, hud.getScoreboardWidget(), deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.SCOREBOARD, hud.getScoreboardWidget(), deltaTime);
         }
         this.client.getProfiler().pop();
         this.client.getProfiler().pop();
@@ -93,11 +93,11 @@ public abstract class MixinInGameHud {
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;draw(I)V"), method = "draw")
     private void drawChatHud(ChatHud hud, int int_1, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudChat");
-        if (DrawHudCallback.EVENT_BEFORE.invoker().drawHud(HudTypes.CHAT, hud, deltaTime)) {
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.CHAT, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudChatDraw");
             hud.draw(int_1);
             this.client.getProfiler().swap("textilelib:renderHudChatAfter");
-            DrawHudCallback.EVENT_AFTER.invoker().drawHud(HudTypes.CHAT, hud, deltaTime);
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.CHAT, hud, deltaTime);
         }
         this.client.getProfiler().pop();
     }

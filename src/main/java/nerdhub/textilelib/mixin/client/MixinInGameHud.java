@@ -2,6 +2,7 @@ package nerdhub.textilelib.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.scoreboard.ScoreboardObjective;
 
 import nerdhub.textilelib.event.client.render.hud.DrawHudCallback;
@@ -21,6 +22,12 @@ public abstract class MixinInGameHud {
 
     @Shadow
     protected abstract void renderScoreboardSidebar(ScoreboardObjective scoreboardObjective_1);
+
+    @Shadow
+    protected abstract void renderStatusBars();
+
+    @Shadow
+    protected abstract PlayerEntity getCameraPlayer();
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/SpectatorHud;draw(F)V"), method = "draw")
     private void drawSpectatorHud(SpectatorHud hud, float deltaTime) {
@@ -93,6 +100,7 @@ public abstract class MixinInGameHud {
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;draw(I)V"), method = "draw")
     private void drawChatHud(ChatHud hud, int int_1, float deltaTime) {
         this.client.getProfiler().push("textilelib:renderHudChat");
+        this.client.getProfiler().push("textilelib:renderHudChatBefore");
         if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.CHAT, hud, deltaTime)) {
             this.client.getProfiler().swap("textilelib:renderHudChatDraw");
             hud.draw(int_1);
@@ -100,22 +108,22 @@ public abstract class MixinInGameHud {
             DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.CHAT, hud, deltaTime);
         }
         this.client.getProfiler().pop();
+        this.client.getProfiler().pop();
     }
 
-
-    private void drawHearts() {
-        // TODO: In order to allow the cancelling the status bars, we would need to overwrite the entire thing
-    }
-
-    private void drawArmor() {
-        // TODO: In order to allow the cancelling the status bars, we would need to overwrite the entire thing
-    }
-
-    private void drawAir() {
-        // TODO: In order to allow the cancelling the status bars, we would need to overwrite the entire thing
-    }
-
-    private void drawFood() {
-        // TODO: In order to allow the cancelling the status bars, we would need to overwrite the entire thing
+    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderStatusBars()V"), method = "draw")
+    private void renderStatusBars(InGameHud hud, float deltaTime) {
+        if (this.getCameraPlayer() == null) // The method call does nothing if this is null
+            return;
+        this.client.getProfiler().push("textilelib:renderStatusBars");
+        this.client.getProfiler().push("textilelib:renderStatusBarsBefore");
+        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.STATUSBARS, hud, deltaTime)) {
+            this.client.getProfiler().swap("textilelib:renderHudStatusBarsDraw");
+            this.renderStatusBars();
+            this.client.getProfiler().swap("textilelib:renderHudStatusBarsAfter");
+            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.STATUSBARS, hud, deltaTime);
+        }
+        this.client.getProfiler().pop();
+        this.client.getProfiler().pop();
     }
 }

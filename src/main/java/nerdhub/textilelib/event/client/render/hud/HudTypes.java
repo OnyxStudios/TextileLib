@@ -12,8 +12,5 @@ public enum HudTypes implements IHudType {
     CHAT,
     SCOREBOARD,
     SUBTITLES,
-    HEALTH,
-    FOOD,
-    ARMOR,
-    AIR
+    STATUSBARS
 }

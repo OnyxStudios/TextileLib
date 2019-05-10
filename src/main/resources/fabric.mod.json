@@ -2,6 +2,11 @@
   "id": "textilelib",
   "name": "TextileLib",
   "description": "Adding more events into the game",
+  "homepage": "https://minecraft.curseforge.com/projects/textilelib",
+  "issues": "https://github.com/NerdHubMC/TextileLib/issues",
+  "sources": "https://github.com/NerdHubMC/TextileLib",
+  "license": "MIT",
+  "icon": "assets/textilelib/icon.png",
   "version": "${version}",
   "side": "universal",
   "requires": {

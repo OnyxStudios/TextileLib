@@ -5,11 +5,12 @@
     "mixins": [
         "MixinBlock",
         "MixinEntity",
+        "MixinLivingEntity",
         "MixinPlayerEntity",
         "MixinPortalBlock",
+        "MixinServerPlayerEntity",
         "MixinServerPlayerInteractionManager",
-        "MixinServerWorld",
-        "MixinServerPlayerEntity"
+        "MixinServerWorld"
     ],
     "injectors": {
         "defaultRequire": 1

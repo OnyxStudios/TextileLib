@@ -3,6 +3,8 @@
 
 Simply Simple Events
 
+See Wiki for list of events.
+
 Gradle Dependency:
 
 ```

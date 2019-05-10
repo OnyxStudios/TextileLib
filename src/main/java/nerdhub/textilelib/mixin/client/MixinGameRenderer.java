@@ -30,7 +30,7 @@ public abstract class MixinGameRenderer {
         this.client.getProfiler().pop();
     }
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Screen;draw(IIF)V", shift = At.Shift.AFTER), method = "render")
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Screen;render(IIF)V", shift = At.Shift.AFTER), method = "render")
     private void renderScreen(float deltaTime, long long_1, boolean boolean_1, CallbackInfo ci) {
         this.client.getProfiler().push("textilelib:renderScreen");
         DrawScreenCallback.EVENT.invoker().drawScreen(this.client.currentScreen, this.getMouseX(), this.getMouseY(), deltaTime);

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerWorld.class)
 public abstract class MixinServerWorld {
 
-    @Inject(method = "method_18771", at = @At("RETURN"))
+    @Inject(method = "addPlayer", at = @At("RETURN"))
     private void method_18771(ServerPlayerEntity serverPlayerEntity, CallbackInfo ci) {
         PlayerJoinWorldCallback.EVENT.invoker().onPlayerJoin(serverPlayerEntity.getServerWorld(), serverPlayerEntity);
     }

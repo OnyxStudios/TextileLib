@@ -24,5 +24,5 @@ public interface PortalCreationCallback {
      *
      * @return {@code true} to cancel creation of the portal
      */
-    boolean tryCreatePortal(IWorld world, BlockPos pos, BlockState state, PortalBlock.class_2424 placeHandler);
+    boolean tryCreatePortal(IWorld world, BlockPos pos, BlockState state, PortalBlock.AreaHelper placeHandler);
 }

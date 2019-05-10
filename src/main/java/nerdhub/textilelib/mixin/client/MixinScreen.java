@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Screen.class)
 public class MixinScreen {
 
-    @Inject(method = "drawStackTooltip", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "renderTooltip(Lnet/minecraft/item/ItemStack;II)V", at = @At("HEAD"), cancellable = true)
     private void drawStackTooltip(ItemStack stack, int mouseX, int mouseY, CallbackInfo ci) {
-        List<String> tooltipList = ((Screen) (Object) this).getStackTooltip(stack);
+        List<String> tooltipList = ((Screen) (Object) this).getTooltipFromItem(stack);
         if (DrawStackTooltipCallback.EVENT.invoker().drawTooltip(stack, tooltipList, mouseX, mouseY)) {
-            ((Screen) (Object) this).drawTooltip(tooltipList, mouseX, mouseY);
+            ((Screen) (Object) this).renderTooltip(tooltipList, mouseX, mouseY);
         }
 
         ci.cancel();

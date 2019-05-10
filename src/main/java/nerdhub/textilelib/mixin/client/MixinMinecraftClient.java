@@ -19,7 +19,7 @@ public abstract class MixinMinecraftClient {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void doAttack(CallbackInfo ci) {
         MinecraftClient client = (MinecraftClient) (Object) this;
-        if(this.attackCooldown <= 0 && client.hitResult != null && client.hitResult.getType() == HitResult.Type.NONE) {
+        if(this.attackCooldown <= 0 && client.hitResult != null && client.hitResult.getType() == HitResult.Type.MISS) {
             if(PlayerSwingCallback.EVENT.invoker().onPlayerSwing(player)) {
                 ci.cancel();
             }

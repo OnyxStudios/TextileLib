@@ -21,9 +21,6 @@ public abstract class MixinInGameHud {
     private MinecraftClient client;
 
     @Shadow
-    protected abstract void renderScoreboardSidebar(ScoreboardObjective scoreboardObjective_1);
-
-    @Shadow
     protected abstract void renderStatusBars();
 
     @Shadow
@@ -78,20 +75,6 @@ public abstract class MixinInGameHud {
             hud.draw();
             this.client.getProfiler().swap("textilelib:renderHudSubtitlesAfter");
             DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.SUBTITLES, hud, deltaTime);
-        }
-        this.client.getProfiler().pop();
-        this.client.getProfiler().pop();
-    }
-
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/scoreboard/ScoreboardObjective;)V"), method = "draw")
-    private void drawScoreboardHud(InGameHud hud, ScoreboardObjective scoreboardObjective, float deltaTime) {
-        this.client.getProfiler().push("textilelib:renderHudScoreboard");
-        this.client.getProfiler().push("textilelib:renderHudScoreboardBefore");
-        if (DrawHudCallback.Pre.EVENT.invoker().drawHud(HudTypes.SCOREBOARD, hud.getScoreboardWidget(), deltaTime)) {
-            this.client.getProfiler().swap("textilelib:renderHudScoreboardDraw");
-            this.renderScoreboardSidebar(scoreboardObjective);
-            this.client.getProfiler().swap("textilelib:renderHudScoreboardAfter");
-            DrawHudCallback.Post.EVENT.invoker().drawHud(HudTypes.SCOREBOARD, hud.getScoreboardWidget(), deltaTime);
         }
         this.client.getProfiler().pop();
         this.client.getProfiler().pop();

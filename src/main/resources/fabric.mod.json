@@ -1,19 +1,26 @@
 {
-  "id": "textilelib",
-  "name": "TextileLib",
-  "description": "Adding more events into the game",
-  "homepage": "https://minecraft.curseforge.com/projects/textilelib",
-  "issues": "https://github.com/NerdHubMC/TextileLib/issues",
-  "sources": "https://github.com/NerdHubMC/TextileLib",
-  "license": "MIT",
-  "icon": "assets/textilelib/icon.png",
-  "version": "${version}",
-  "side": "universal",
-  "requires": {
-    "fabric": "*"
-  },
-  "mixins": {
-    "client": "mixins.textilelib.client.json",
-    "common": "mixins.textilelib.common.json"
-  }
+    "schemaVersion": 1,
+    "id": "textilelib",
+    "version": "${version}",
+    "name": "TextileLib",
+    "description": "Adding more events into the game",
+    "authors": [
+        "NerdHub"
+    ],
+    "contact": {
+        "homepage": "https://minecraft.curseforge.com/projects/textilelib",
+        "issues": "https://github.com/NerdHubMC/TextileLib/issues",
+        "sources": "https://github.com/NerdHubMC/TextileLib",
+        "discord": "https://discord.gg/RBkucXN"
+    },
+    "license": "MIT",
+    "icon": "assets/textilelib/icon.png",
+    "environment": "*",
+    "depends": {
+        "fabric": "*"
+    },
+    "mixins": [
+        "mixins.textilelib.client.json",
+        "mixins.textilelib.common.json"
+    ]
 }

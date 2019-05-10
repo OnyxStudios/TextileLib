@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TextComponent;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
@@ -25,5 +25,5 @@ public interface TooltipCreationCallback {
      *
      * @param tooltip the list that contains the tooltip
      */
-    void buildTooltip(ItemStack stack, TooltipContext context, List<TextComponent> tooltip);
+    void buildTooltip(ItemStack stack, TooltipContext context, List<Component> tooltip);
 }

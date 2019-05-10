@@ -10,7 +10,6 @@ public enum HudTypes implements IHudType {
     DEBUG,
     BOSSBAR,
     CHAT,
-    SCOREBOARD,
     SUBTITLES,
     STATUSBARS
 }
